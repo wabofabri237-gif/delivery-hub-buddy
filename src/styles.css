@@ -1,0 +1,160 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system — "Menthe Néon" marketplace
+ * Deep navy surfaces, mint neon accents. Space Grotesk headings / DM Sans body.
+ * All colors in oklch. Never hardcode colors in components.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-glow: var(--primary-glow);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+}
+
+:root {
+  --radius: 0.875rem;
+  --background: oklch(0.19 0.045 250);
+  --foreground: oklch(0.96 0.012 180);
+  --surface: oklch(0.24 0.048 250);
+  --surface-foreground: oklch(0.96 0.012 180);
+  --card: oklch(0.235 0.045 250);
+  --card-foreground: oklch(0.96 0.012 180);
+  --popover: oklch(0.235 0.045 250);
+  --popover-foreground: oklch(0.96 0.012 180);
+  --primary: oklch(0.82 0.16 172);
+  --primary-foreground: oklch(0.19 0.05 250);
+  --primary-glow: oklch(0.92 0.15 168);
+  --secondary: oklch(0.36 0.07 165);
+  --secondary-foreground: oklch(0.95 0.02 170);
+  --muted: oklch(0.28 0.04 250);
+  --muted-foreground: oklch(0.72 0.03 220);
+  --accent: oklch(0.42 0.09 168);
+  --accent-foreground: oklch(0.96 0.02 172);
+  --destructive: oklch(0.63 0.19 22);
+  --destructive-foreground: oklch(0.98 0.01 180);
+  --warning: oklch(0.83 0.15 85);
+  --warning-foreground: oklch(0.2 0.04 250);
+  --border: oklch(0.34 0.05 235);
+  --input: oklch(0.3 0.045 240);
+  --ring: oklch(0.82 0.16 172);
+  --chart-1: oklch(0.82 0.16 172);
+  --chart-2: oklch(0.68 0.12 210);
+  --chart-3: oklch(0.83 0.15 85);
+  --chart-4: oklch(0.55 0.1 165);
+  --chart-5: oklch(0.7 0.14 320);
+
+  --gradient-hero: radial-gradient(
+      120% 100% at 80% 0%,
+      color-mix(in oklab, var(--primary) 26%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(160deg, var(--background), var(--surface));
+  --gradient-mint: linear-gradient(120deg, var(--primary), var(--primary-glow));
+  --shadow-glow: 0 18px 50px -22px color-mix(in oklab, var(--primary) 55%, transparent);
+  --shadow-panel: 0 24px 60px -32px oklch(0.08 0.03 250 / 0.9);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
+    padding-bottom: env(safe-area-inset-bottom);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@utility panel {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-panel);
+}
+
+@utility hero-surface {
+  background-image: var(--gradient-hero);
+}
+
+@utility mint-surface {
+  background-image: var(--gradient-mint);
+  color: var(--color-primary-foreground);
+}
+
+@utility glow {
+  box-shadow: var(--shadow-glow);
+}
+
+@utility grid-lines {
+  background-image: linear-gradient(
+      to right,
+      color-mix(in oklab, var(--border) 60%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--border) 60%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 56px 56px;
+}
