@@ -124,6 +124,7 @@ export type Database = {
           address: string | null
           buyer_id: string
           city: string
+          courier_id: string | null
           created_at: string
           customer_name: string
           id: string
@@ -138,6 +139,7 @@ export type Database = {
           address?: string | null
           buyer_id: string
           city: string
+          courier_id?: string | null
           created_at?: string
           customer_name: string
           id?: string
@@ -152,6 +154,7 @@ export type Database = {
           address?: string | null
           buyer_id?: string
           city?: string
+          courier_id?: string | null
           created_at?: string
           customer_name?: string
           id?: string
