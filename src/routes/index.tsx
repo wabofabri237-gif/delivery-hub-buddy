@@ -1,10 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import { Search, ShoppingBag, Star, SlidersHorizontal, Truck, ShieldCheck, Heart } from "lucide-react";
 import heroImg from "@/assets/hero-market.jpg";
 import { SpaceNav } from "@/components/space-nav";
-import { categories, products, formatFcfa } from "@/lib/marketplace-data";
+import { formatFcfa } from "@/lib/marketplace-data";
+import { listPublicCatalog } from "@/lib/vendor.functions";
 
 export const Route = createFileRoute("/")({
+  loader: () => listPublicCatalog(),
   head: () => ({
     meta: [
       { title: "SokoMarket — Marketplace multi-vendeurs" },
@@ -18,12 +21,50 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Espace client : catalogue, panier et suivi de livraison en temps réel.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  errorComponent: () => (
+    <div className="min-h-screen">
+      <SpaceNav />
+      <main className="mx-auto max-w-6xl px-4 py-10">
+        <p className="panel p-5 text-xs text-muted-foreground">
+          Impossible de charger le catalogue pour le moment.
+        </p>
+      </main>
+    </div>
+  ),
+  notFoundComponent: () => (
+    <div className="min-h-screen">
+      <SpaceNav />
+      <main className="mx-auto max-w-6xl px-4 py-10">
+        <p className="panel p-5 text-xs text-muted-foreground">Aucun produit trouvé.</p>
+      </main>
+    </div>
+  ),
   component: ClientSpace,
 });
 
 function ClientSpace() {
+  const { products, categories } = Route.useLoaderData();
+  const [category, setCategory] = useState("Tout");
+  const [query, setQuery] = useState("");
+
+  const tabs = useMemo(() => ["Tout", ...categories], [categories]);
+  const visible = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return products.filter(
+      (p) =>
+        (category === "Tout" || p.category === category) &&
+        (q === "" || p.name.toLowerCase().includes(q) || p.shop_name.toLowerCase().includes(q)),
+    );
+  }, [products, category, query]);
+  const vendorCount = useMemo(
+    () => new Set(products.map((p) => p.shop_slug)).size,
+    [products],
+  );
+
   return (
     <div className="min-h-screen">
       <SpaceNav />
