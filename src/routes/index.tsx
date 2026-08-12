@@ -46,12 +46,25 @@ export const Route = createFileRoute("/")({
   component: ClientSpace,
 });
 
+type CatalogProduct = {
+  id: string;
+  name: string;
+  price: number;
+  category: string;
+  stock: number;
+  image_url: string | null;
+  shop_name: string;
+  shop_slug: string;
+};
+
 function ClientSpace() {
-  const { products, categories } = Route.useLoaderData();
+  const data = Route.useLoaderData() as { products: CatalogProduct[]; categories: string[] };
+  const { products, categories } = data;
   const [category, setCategory] = useState("Tout");
   const [query, setQuery] = useState("");
 
   const tabs = useMemo(() => ["Tout", ...categories], [categories]);
+
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
     return products.filter(
