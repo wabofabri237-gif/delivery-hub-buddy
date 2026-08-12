@@ -174,3 +174,28 @@ export const listPublicShops = createServerFn({ method: "GET" }).handler(async (
     .limit(24);
   return data ?? [];
 });
+
+export const listPublicCatalog = createServerFn({ method: "GET" }).handler(async () => {
+  const supabase = publicSupabase();
+  const { data } = await supabase
+    .from("products")
+    .select("id, name, price, category, stock, image_url, shops!inner(name, slug, is_active)")
+    .eq("is_published", true)
+    .eq("shops.is_active", true)
+    .order("created_at", { ascending: false })
+    .limit(60);
+
+  const products = (data ?? []).map((p) => ({
+    id: p.id,
+    name: p.name,
+    price: p.price,
+    category: p.category,
+    stock: p.stock,
+    image_url: p.image_url,
+    shop_name: (p.shops as unknown as { name: string; slug: string }).name,
+    shop_slug: (p.shops as unknown as { name: string; slug: string }).slug,
+  }));
+
+  const categories = Array.from(new Set(products.map((p) => p.category))).sort();
+  return { products, categories };
+});
