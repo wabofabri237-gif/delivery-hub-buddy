@@ -103,6 +103,8 @@ function ClientSpace() {
                 <label className="flex min-w-0 items-center gap-2 rounded-lg border border-border bg-input/60 px-3 py-2.5">
                   <Search className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
                   <input
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
                     placeholder="Rechercher un produit, une boutique…"
                     className="w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                   />
@@ -114,10 +116,11 @@ function ClientSpace() {
 
               <dl className="mt-7 flex flex-wrap gap-x-8 gap-y-3">
                 {[
-                  ["12k+", "Produits"],
-                  ["96", "Vendeurs"],
-                  ["4,8/5", "Satisfaction"],
+                  [String(products.length), "Produits"],
+                  [String(vendorCount), "Vendeurs"],
+                  [String(categories.length), "Catégories"],
                 ].map(([v, l]) => (
+
                   <div key={l}>
                     <dt className="font-display text-xl font-bold text-primary">{v}</dt>
                     <dd className="text-xs text-muted-foreground">{l}</dd>
