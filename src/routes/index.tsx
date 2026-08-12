@@ -205,8 +205,6 @@ function ClientSpace() {
           )}
         </section>
 
-        </section>
-
         <section className="panel mt-10 p-6">
           <h2 className="text-lg font-bold">Paiement &amp; suivi de livraison</h2>
           <p className="mt-2 text-sm text-muted-foreground">
