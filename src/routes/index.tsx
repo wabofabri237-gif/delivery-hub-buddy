@@ -125,18 +125,19 @@ function ClientSpace() {
 
         <section className="mt-10">
           <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
-            <h2 className="truncate text-xl font-bold">Catalogue (démo)</h2>
-            <button className="flex shrink-0 items-center gap-2 rounded-lg border border-border bg-surface/60 px-3 py-2 text-xs text-muted-foreground">
-              <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden /> Filtres
-            </button>
+            <h2 className="truncate text-xl font-bold">Catalogue</h2>
+            <span className="flex shrink-0 items-center gap-2 rounded-lg border border-border bg-surface/60 px-3 py-2 text-xs text-muted-foreground">
+              <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden /> {visible.length} produits
+            </span>
           </div>
 
           <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
-            {categories.map((c, i) => (
+            {tabs.map((c) => (
               <button
                 key={c}
+                onClick={() => setCategory(c)}
                 className={
-                  i === 0
+                  c === category
                     ? "mint-surface shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold"
                     : "shrink-0 rounded-full border border-border bg-surface/60 px-4 py-1.5 text-xs text-muted-foreground"
                 }
@@ -146,40 +147,64 @@ function ClientSpace() {
             ))}
           </div>
 
-          <ul className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4">
-            {products.map((p) => (
-              <li key={p.id} className="panel group overflow-hidden p-3">
-                <div className="relative grid aspect-square place-items-center rounded-lg bg-muted/60">
-                  <span className="font-display text-3xl font-bold text-primary/40">
-                    {p.name.charAt(0)}
-                  </span>
-                  <button
-                    aria-label="Ajouter aux favoris"
-                    className="absolute right-2 top-2 grid h-7 w-7 place-items-center rounded-full bg-background/70 text-muted-foreground"
+          {visible.length === 0 ? (
+            <p className="panel mt-5 p-5 text-xs text-muted-foreground">
+              Aucun produit disponible pour l'instant. Les articles publiés par les vendeurs
+              certifiés apparaîtront ici.
+            </p>
+          ) : (
+            <ul className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4">
+              {visible.map((p) => (
+                <li key={p.id} className="panel group overflow-hidden p-3">
+                  <div className="relative grid aspect-square place-items-center overflow-hidden rounded-lg bg-muted/60">
+                    {p.image_url ? (
+                      <img
+                        src={p.image_url}
+                        alt={p.name}
+                        loading="lazy"
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <span className="font-display text-3xl font-bold text-primary/40">
+                        {p.name.charAt(0)}
+                      </span>
+                    )}
+                    <button
+                      aria-label="Ajouter aux favoris"
+                      className="absolute right-2 top-2 grid h-7 w-7 place-items-center rounded-full bg-background/70 text-muted-foreground"
+                    >
+                      <Heart className="h-3.5 w-3.5" aria-hidden />
+                    </button>
+                  </div>
+                  <p className="mt-3 truncate text-sm font-semibold">{p.name}</p>
+                  <Link
+                    to="/boutique/$slug"
+                    params={{ slug: p.shop_slug }}
+                    className="block truncate text-xs text-muted-foreground hover:text-primary"
                   >
-                    <Heart className="h-3.5 w-3.5" aria-hidden />
-                  </button>
-                </div>
-                <p className="mt-3 truncate text-sm font-semibold">{p.name}</p>
-                <p className="truncate text-xs text-muted-foreground">{p.vendor}</p>
-                <div className="mt-2 flex items-center gap-1 text-xs text-warning">
-                  <Star className="h-3 w-3 fill-current" aria-hidden /> {p.rating}
-                  <span className="text-muted-foreground">· {p.stock} en stock</span>
-                </div>
-                <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
-                  <span className="truncate font-display text-sm font-bold">
-                    {formatFcfa(p.price)}
-                  </span>
-                  <button
-                    aria-label={`Ajouter ${p.name} au panier`}
-                    className="mint-surface grid h-8 w-8 shrink-0 place-items-center rounded-lg"
-                  >
-                    <ShoppingBag className="h-4 w-4" aria-hidden />
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
+                    {p.shop_name}
+                  </Link>
+                  <div className="mt-2 flex items-center gap-1 text-xs text-warning">
+                    <Star className="h-3 w-3 fill-current" aria-hidden /> {p.category}
+                    <span className="text-muted-foreground">· {p.stock} en stock</span>
+                  </div>
+                  <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+                    <span className="truncate font-display text-sm font-bold">
+                      {formatFcfa(p.price)}
+                    </span>
+                    <button
+                      aria-label={`Ajouter ${p.name} au panier`}
+                      className="mint-surface grid h-8 w-8 shrink-0 place-items-center rounded-lg"
+                    >
+                      <ShoppingBag className="h-4 w-4" aria-hidden />
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
         </section>
 
         <section className="panel mt-10 p-6">
