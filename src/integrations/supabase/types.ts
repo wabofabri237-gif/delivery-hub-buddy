@@ -175,6 +175,88 @@ export type Database = {
           },
         ]
       }
+      product_images: {
+        Row: {
+          alt: string | null
+          created_at: string
+          id: string
+          position: number
+          product_id: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          alt?: string | null
+          created_at?: string
+          id?: string
+          position?: number
+          product_id: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          alt?: string | null
+          created_at?: string
+          id?: string
+          position?: number
+          product_id?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_images_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_variants: {
+        Row: {
+          created_at: string
+          group_name: string
+          id: string
+          position: number
+          price_delta: number
+          product_id: string
+          stock: number
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          group_name?: string
+          id?: string
+          position?: number
+          price_delta?: number
+          product_id: string
+          stock?: number
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          created_at?: string
+          group_name?: string
+          id?: string
+          position?: number
+          price_delta?: number
+          product_id?: string
+          stock?: number
+          updated_at?: string
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_variants_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       products: {
         Row: {
           category: string
