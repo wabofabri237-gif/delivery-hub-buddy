@@ -97,7 +97,7 @@ function MyOrdersPage() {
                 {status !== "annulee" && (
                   <ol className="mt-4 grid grid-cols-4 gap-1">
                     {STEPS.map((s, i) => {
-                      const Icon = ICONS[s];
+                      const Icon = ICONS[s] ?? Clock;
                       const done = i <= stepIndex;
                       return (
                         <li key={s} className="text-center">
