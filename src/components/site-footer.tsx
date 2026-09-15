@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ShieldCheck, LifeBuoy, Sparkles, FileText, Info } from "lucide-react";
+import { BrandLogo } from "@/components/brand-logo";
 
 const links = [
   { to: "/a-propos", label: "À propos", Icon: Info },
@@ -14,14 +15,7 @@ export function SiteFooter() {
     <footer className="mt-16 border-t border-border bg-surface/40">
       <div className="mx-auto max-w-6xl px-4 py-8">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-2">
-            <span className="mint-surface grid h-8 w-8 place-items-center rounded-lg font-display text-xs font-bold">
-              SK
-            </span>
-            <span className="font-display text-sm font-bold">
-              Soko<span className="text-primary">Market</span>
-            </span>
-          </Link>
+          <BrandLogo compact />
           <nav className="flex flex-wrap gap-x-5 gap-y-2">
             {links.map(({ to, label, Icon }) => (
               <Link
@@ -36,8 +30,7 @@ export function SiteFooter() {
           </nav>
         </div>
         <p className="mt-6 text-[11px] text-muted-foreground">
-          © {new Date().getFullYear()} SokoMarket — Marketplace multi-vendeurs. Paiement Orange
-          Money, MTN MoMo ou à la livraison.
+          © {new Date().getFullYear()} Shop Crew Hub — Marketplace multi-vendeurs au Cameroun.
         </p>
       </div>
     </footer>
