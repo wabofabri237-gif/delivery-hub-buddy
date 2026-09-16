@@ -1,4 +1,5 @@
 import { CartProvider } from "@/lib/cart";
+import { MobileTabBar } from "@/components/mobile-tabbar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -84,15 +85,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover",
       },
-      { title: "SokoMarket — Marketplace multi-vendeurs" },
+      { title: "Shop Crew Hub — Le marché près de chez vous" },
       {
         name: "description",
-        content: "Marketplace multi-vendeurs avec espaces client, administrateur et livreur.",
+        content: "Achetez sur Shop Crew Hub et faites-vous livrer à domicile au Cameroun.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "application-name", content: "SokoMarket" },
-      { name: "apple-mobile-web-app-title", content: "SokoMarket" },
+      { name: "application-name", content: "Shop Crew Hub" },
+      { name: "apple-mobile-web-app-title", content: "Shop Crew Hub" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
@@ -122,7 +123,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <head>
         <HeadContent />
       </head>
@@ -147,7 +148,10 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <CartProvider>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="pb-16 md:pb-0">
+        <Outlet />
+      </div>
+      <MobileTabBar />
       </CartProvider>
     </QueryClientProvider>
   );
