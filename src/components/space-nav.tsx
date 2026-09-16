@@ -52,7 +52,8 @@ export function SpaceNav() {
 
   function submitSearch(e: React.FormEvent) {
     e.preventDefault();
-    navigate({ to: "/", search: { q: term.trim() || undefined } });
+    const q = term.trim();
+    navigate({ to: "/", search: q ? { q } : {} });
   }
 
   return (
