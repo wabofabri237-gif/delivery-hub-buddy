@@ -21,9 +21,8 @@ import { listPublicCatalog, listPublicShops } from "@/lib/vendor.functions";
 import { useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    q: typeof search.q === "string" && search.q ? search.q : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>) =>
+    typeof search["q"] === "string" && search["q"] ? { q: search["q"] } : {},
   loader: async () => {
     const [catalog, shops] = await Promise.all([listPublicCatalog(), listPublicShops()]);
     return { ...catalog, shops };
