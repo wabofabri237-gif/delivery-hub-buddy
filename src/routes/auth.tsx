@@ -7,16 +7,16 @@ import { lovable } from "@/integrations/lovable/index";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Connexion & inscription — SokoMarket" },
+      { title: "Connexion & inscription — Shop Crew Hub" },
       {
         name: "description",
         content:
-          "Créez votre compte SokoMarket pour acheter, ouvrir une boutique ou devenir livreur certifié.",
+          "Créez votre compte Shop Crew Hub pour acheter, ouvrir une boutique ou devenir livreur certifié.",
       },
-      { property: "og:title", content: "Connexion & inscription — SokoMarket" },
+      { property: "og:title", content: "Connexion & inscription — Shop Crew Hub" },
       {
         property: "og:description",
-        content: "Comptes client, vendeur et livreur sur la marketplace SokoMarket.",
+        content: "Comptes client, vendeur et livreur sur la marketplace Shop Crew Hub.",
       },
     ],
   }),

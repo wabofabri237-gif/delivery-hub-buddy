@@ -14,12 +14,12 @@ export const Route = createFileRoute("/boutique/$slug")({
     const name = loaderData?.shop?.name ?? "Boutique";
     const description =
       loaderData?.shop?.description ??
-      `Découvrez les produits de la boutique ${name} sur SokoMarket, livrés près de vous.`;
+      `Découvrez les produits de la boutique ${name} sur Shop Crew Hub, livrés près de vous.`;
     return {
       meta: [
-        { title: `${name} — Boutique SokoMarket` },
+        { title: `${name} — Boutique Shop Crew Hub` },
         { name: "description", content: description.slice(0, 155) },
-        { property: "og:title", content: `${name} — Boutique SokoMarket` },
+        { property: "og:title", content: `${name} — Boutique Shop Crew Hub` },
         { property: "og:description", content: description.slice(0, 155) },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },

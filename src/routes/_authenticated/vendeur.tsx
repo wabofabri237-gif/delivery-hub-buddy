@@ -23,16 +23,16 @@ import {
 export const Route = createFileRoute("/_authenticated/vendeur")({
   head: () => ({
     meta: [
-      { title: "Espace vendeur — SokoMarket" },
+      { title: "Espace vendeur — Shop Crew Hub" },
       {
         name: "description",
         content:
-          "Gérez votre boutique SokoMarket : catalogue produits, stocks, prix et suivi des commandes.",
+          "Gérez votre boutique Shop Crew Hub : catalogue produits, stocks, prix et suivi des commandes.",
       },
-      { property: "og:title", content: "Espace vendeur — SokoMarket" },
+      { property: "og:title", content: "Espace vendeur — Shop Crew Hub" },
       {
         property: "og:description",
-        content: "Boutique, produits et commandes des vendeurs SokoMarket.",
+        content: "Boutique, produits et commandes des vendeurs Shop Crew Hub.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

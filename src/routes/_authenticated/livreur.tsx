@@ -8,13 +8,13 @@ import { getMyAccess } from "@/lib/account.functions";
 export const Route = createFileRoute("/_authenticated/livreur")({
   head: () => ({
     meta: [
-      { title: "Espace livreur — SokoMarket" },
+      { title: "Espace livreur — Shop Crew Hub" },
       {
         name: "description",
         content:
-          "Espace livreur certifié SokoMarket : courses assignées, itinéraires et gains.",
+          "Espace livreur certifié Shop Crew Hub : courses assignées, itinéraires et gains.",
       },
-      { property: "og:title", content: "Espace livreur — SokoMarket" },
+      { property: "og:title", content: "Espace livreur — Shop Crew Hub" },
       {
         property: "og:description",
         content: "Accédez à vos courses après certification par l'administrateur.",

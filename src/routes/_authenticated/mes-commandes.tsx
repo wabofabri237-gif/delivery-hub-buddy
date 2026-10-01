@@ -11,13 +11,13 @@ import { ORDER_STATUS_LABELS, type OrderStatus } from "@/lib/vendor-shared";
 export const Route = createFileRoute("/_authenticated/mes-commandes")({
   head: () => ({
     meta: [
-      { title: "Mes commandes — SokoMarket" },
+      { title: "Mes commandes — Shop Crew Hub" },
       {
         name: "description",
-        content: "Suivez l'état de vos commandes SokoMarket, de la préparation à la livraison.",
+        content: "Suivez l'état de vos commandes Shop Crew Hub, de la préparation à la livraison.",
       },
-      { property: "og:title", content: "Mes commandes — SokoMarket" },
-      { property: "og:description", content: "Suivi de commandes et livraisons SokoMarket." },
+      { property: "og:title", content: "Mes commandes — Shop Crew Hub" },
+      { property: "og:description", content: "Suivi de commandes et livraisons Shop Crew Hub." },
     ],
   }),
   component: MyOrdersPage,

@@ -15,16 +15,16 @@ export const Route = createFileRoute("/boutiques")({
   loader: () => listPublicShops(),
   head: () => ({
     meta: [
-      { title: "Boutiques vendeurs — SokoMarket" },
+      { title: "Boutiques vendeurs — Shop Crew Hub" },
       {
         name: "description",
         content:
-          "Découvrez toutes les boutiques vendeurs certifiées de SokoMarket et commandez avec livraison suivie.",
+          "Découvrez toutes les boutiques vendeurs certifiées de Shop Crew Hub et commandez avec livraison suivie.",
       },
-      { property: "og:title", content: "Boutiques vendeurs — SokoMarket" },
+      { property: "og:title", content: "Boutiques vendeurs — Shop Crew Hub" },
       {
         property: "og:description",
-        content: "Toutes les boutiques certifiées de la marketplace SokoMarket.",
+        content: "Toutes les boutiques certifiées de la marketplace Shop Crew Hub.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -52,7 +52,7 @@ function Shell({ children }: { children: React.ReactNode }) {
       <main className="mx-auto max-w-5xl px-4 pb-24 pt-6">
         <h1 className="text-2xl font-bold sm:text-3xl">Boutiques</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Vendeurs certifiés par l'administrateur SokoMarket.
+          Vendeurs certifiés par l'administrateur Shop Crew Hub.
         </p>
         <div className="mt-6">{children}</div>
       </main>
