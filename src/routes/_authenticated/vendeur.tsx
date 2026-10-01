@@ -9,6 +9,7 @@ import {
   ORDER_STATUSES,
   ORDER_STATUS_LABELS,
   PRODUCT_CATEGORIES,
+  VENDOR_SETTABLE_STATUSES,
   type OrderStatus,
 } from "@/lib/vendor-shared";
 import {
