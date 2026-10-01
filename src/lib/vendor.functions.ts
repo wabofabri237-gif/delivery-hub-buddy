@@ -1,6 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { clean, ORDER_STATUSES, type OrderStatus } from "@/lib/vendor-shared";
+import {
+  clean,
+  ORDER_STATUSES,
+  VENDOR_SETTABLE_STATUSES,
+  type OrderStatus,
+} from "@/lib/vendor-shared";
 import { publicSupabase } from "@/lib/supabase-public.server";
 
 export type ProductInput = {

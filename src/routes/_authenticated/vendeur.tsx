@@ -426,12 +426,15 @@ function OrdersPanel({ orders }: { orders: OrderRow[] }) {
               <span className="text-[11px] text-muted-foreground">Statut</span>
               <select
                 value={o.status}
+                disabled={!VENDOR_SETTABLE_STATUSES.includes(o.status as OrderStatus)}
                 onChange={(e) =>
                   mutation.mutate({ id: o.id, status: e.target.value as OrderStatus })
                 }
-                className="mt-1 min-h-11 w-full rounded-lg border border-border bg-input/60 px-3 text-sm outline-none"
+                className="mt-1 min-h-11 w-full rounded-lg border border-border bg-input/60 px-3 text-sm outline-none disabled:opacity-70"
               >
-                {ORDER_STATUSES.map((s) => (
+                {ORDER_STATUSES.filter(
+                  (s) => VENDOR_SETTABLE_STATUSES.includes(s) || s === o.status,
+                ).map((s) => (
                   <option key={s} value={s}>
                     {ORDER_STATUS_LABELS[s]}
                   </option>
