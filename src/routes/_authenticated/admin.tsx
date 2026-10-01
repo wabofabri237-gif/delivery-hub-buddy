@@ -14,13 +14,13 @@ export const Route = createFileRoute("/_authenticated/admin")({
   loader: () => requireAdmin(),
   head: () => ({
     meta: [
-      { title: "Espace administrateur — SokoMarket" },
+      { title: "Espace administrateur — Shop Crew Hub" },
       {
         name: "description",
         content:
-          "Pilotage de la marketplace SokoMarket : comptes, vendeurs, livreurs et certifications.",
+          "Pilotage de la marketplace Shop Crew Hub : comptes, vendeurs, livreurs et certifications.",
       },
-      { property: "og:title", content: "Espace administrateur — SokoMarket" },
+      { property: "og:title", content: "Espace administrateur — Shop Crew Hub" },
       {
         property: "og:description",
         content: "Tableau de bord admin : comptes, rôles, demandes et modération.",

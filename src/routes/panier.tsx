@@ -14,16 +14,16 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/panier")({
   head: () => ({
     meta: [
-      { title: "Mon panier & commande — SokoMarket" },
+      { title: "Mon panier & commande — Shop Crew Hub" },
       {
         name: "description",
         content:
           "Vérifiez vos articles, renseignez la livraison et payez par Orange Money, MTN MoMo ou à la réception.",
       },
-      { property: "og:title", content: "Mon panier & commande — SokoMarket" },
+      { property: "og:title", content: "Mon panier & commande — Shop Crew Hub" },
       {
         property: "og:description",
-        content: "Panier, adresse de livraison et paiement mobile money sur SokoMarket.",
+        content: "Panier, adresse de livraison et paiement mobile money sur Shop Crew Hub.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

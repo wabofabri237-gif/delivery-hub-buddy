@@ -6,13 +6,13 @@ import { SiteFooter } from "@/components/site-footer";
 export const Route = createFileRoute("/a-propos")({
   head: () => ({
     meta: [
-      { title: "À propos de SokoMarket — notre mission" },
+      { title: "À propos de Shop Crew Hub — notre mission" },
       {
         name: "description",
         content:
-          "SokoMarket connecte les vendeurs vérifiés, les clients et les livreurs certifiés du Cameroun sur une seule plateforme.",
+          "Shop Crew Hub connecte les vendeurs vérifiés, les clients et les livreurs certifiés du Cameroun sur une seule plateforme.",
       },
-      { property: "og:title", content: "À propos de SokoMarket" },
+      { property: "og:title", content: "À propos de Shop Crew Hub" },
       {
         property: "og:description",
         content: "La marketplace multi-vendeurs qui relie boutiques, clients et livreurs.",
@@ -29,9 +29,9 @@ function AboutPage() {
     <div className="min-h-screen">
       <SpaceNav />
       <main className="mx-auto max-w-3xl px-4 pb-20 pt-6">
-        <h1 className="text-2xl font-bold sm:text-3xl">À propos de SokoMarket</h1>
+        <h1 className="text-2xl font-bold sm:text-3xl">À propos de Shop Crew Hub</h1>
         <p className="mt-3 text-sm text-muted-foreground">
-          SokoMarket est une marketplace multi-vendeurs : chaque boutique gère son catalogue, ses
+          Shop Crew Hub est une marketplace multi-vendeurs : chaque boutique gère son catalogue, ses
           prix et ses stocks, tandis que les clients commandent en quelques clics et suivent leur
           livraison en temps réel. Les livreurs certifiés prennent en charge les commandes prêtes
           et les mènent jusqu'à la porte du client.

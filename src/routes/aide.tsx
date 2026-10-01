@@ -5,9 +5,9 @@ import { SiteFooter } from "@/components/site-footer";
 export const Route = createFileRoute("/aide")({
   head: () => ({
     meta: [
-      { title: "Aide et FAQ — SokoMarket" },
+      { title: "Aide et FAQ — Shop Crew Hub" },
       { name: "description", content: "Réponses aux questions fréquentes : commander, payer, suivre une livraison, ouvrir une boutique." },
-      { property: "og:title", content: "Aide et FAQ — SokoMarket" },
+      { property: "og:title", content: "Aide et FAQ — Shop Crew Hub" },
       { property: "og:description", content: "Réponses aux questions fréquentes : commander, payer, suivre une livraison, ouvrir une boutique." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -31,7 +31,7 @@ function Page() {
       <SpaceNav />
       <main className="mx-auto max-w-3xl px-4 pb-20 pt-6">
         <h1 className="text-2xl font-bold sm:text-3xl">Centre d'aide</h1>
-        <p className="mt-3 text-sm text-muted-foreground">Tout ce qu'il faut savoir pour commander, vendre ou livrer sur SokoMarket.</p>
+        <p className="mt-3 text-sm text-muted-foreground">Tout ce qu'il faut savoir pour commander, vendre ou livrer sur Shop Crew Hub.</p>
         <div className="mt-6 grid gap-4">
           {SECTIONS.map((s) => (
             <section key={s.h} className="panel p-5">

@@ -1,6 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { clean, ORDER_STATUSES, type OrderStatus } from "@/lib/vendor-shared";
+import {
+  clean,
+  ORDER_STATUSES,
+  VENDOR_SETTABLE_STATUSES,
+  type OrderStatus,
+} from "@/lib/vendor-shared";
 import { publicSupabase } from "@/lib/supabase-public.server";
 
 export type ProductInput = {
@@ -131,6 +136,20 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
     return input;
   })
   .handler(async ({ data, context }) => {
+    // Vendors may only prepare or cancel; "en_route"/"livree" belong to the courier workflow.
+    if (!VENDOR_SETTABLE_STATUSES.includes(data.status)) {
+      throw new Error("Ce statut est géré par le livreur.");
+    }
+    const { data: current, error: readErr } = await context.supabase
+      .from("orders")
+      .select("status")
+      .eq("id", data.id)
+      .maybeSingle();
+    if (readErr) throw new Error(readErr.message);
+    if (!current) throw new Error("Commande introuvable");
+    if (!VENDOR_SETTABLE_STATUSES.includes(current.status as OrderStatus)) {
+      throw new Error("Cette commande est déjà prise en charge par la livraison.");
+    }
     const { error } = await context.supabase
       .from("orders")
       .update({ status: data.status })

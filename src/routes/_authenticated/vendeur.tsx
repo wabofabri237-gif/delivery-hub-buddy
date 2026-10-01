@@ -9,6 +9,7 @@ import {
   ORDER_STATUSES,
   ORDER_STATUS_LABELS,
   PRODUCT_CATEGORIES,
+  VENDOR_SETTABLE_STATUSES,
   type OrderStatus,
 } from "@/lib/vendor-shared";
 import {
@@ -22,16 +23,16 @@ import {
 export const Route = createFileRoute("/_authenticated/vendeur")({
   head: () => ({
     meta: [
-      { title: "Espace vendeur — SokoMarket" },
+      { title: "Espace vendeur — Shop Crew Hub" },
       {
         name: "description",
         content:
-          "Gérez votre boutique SokoMarket : catalogue produits, stocks, prix et suivi des commandes.",
+          "Gérez votre boutique Shop Crew Hub : catalogue produits, stocks, prix et suivi des commandes.",
       },
-      { property: "og:title", content: "Espace vendeur — SokoMarket" },
+      { property: "og:title", content: "Espace vendeur — Shop Crew Hub" },
       {
         property: "og:description",
-        content: "Boutique, produits et commandes des vendeurs SokoMarket.",
+        content: "Boutique, produits et commandes des vendeurs Shop Crew Hub.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -426,12 +427,15 @@ function OrdersPanel({ orders }: { orders: OrderRow[] }) {
               <span className="text-[11px] text-muted-foreground">Statut</span>
               <select
                 value={o.status}
+                disabled={!VENDOR_SETTABLE_STATUSES.includes(o.status as OrderStatus)}
                 onChange={(e) =>
                   mutation.mutate({ id: o.id, status: e.target.value as OrderStatus })
                 }
-                className="mt-1 min-h-11 w-full rounded-lg border border-border bg-input/60 px-3 text-sm outline-none"
+                className="mt-1 min-h-11 w-full rounded-lg border border-border bg-input/60 px-3 text-sm outline-none disabled:opacity-70"
               >
-                {ORDER_STATUSES.map((s) => (
+                {ORDER_STATUSES.filter(
+                  (s) => VENDOR_SETTABLE_STATUSES.includes(s) || s === o.status,
+                ).map((s) => (
                   <option key={s} value={s}>
                     {ORDER_STATUS_LABELS[s]}
                   </option>

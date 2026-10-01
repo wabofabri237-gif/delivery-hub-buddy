@@ -5,10 +5,10 @@ import { SiteFooter } from "@/components/site-footer";
 export const Route = createFileRoute("/confidentialite")({
   head: () => ({
     meta: [
-      { title: "Politique de confidentialité — SokoMarket" },
-      { name: "description", content: "Quelles données SokoMarket collecte, pourquoi, avec qui elles sont partagées et vos droits." },
-      { property: "og:title", content: "Politique de confidentialité — SokoMarket" },
-      { property: "og:description", content: "Quelles données SokoMarket collecte, pourquoi, avec qui elles sont partagées et vos droits." },
+      { title: "Politique de confidentialité — Shop Crew Hub" },
+      { name: "description", content: "Quelles données Shop Crew Hub collecte, pourquoi, avec qui elles sont partagées et vos droits." },
+      { property: "og:title", content: "Politique de confidentialité — Shop Crew Hub" },
+      { property: "og:description", content: "Quelles données Shop Crew Hub collecte, pourquoi, avec qui elles sont partagées et vos droits." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

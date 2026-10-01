@@ -13,10 +13,10 @@ export const Route = createFileRoute("/assistant")({
       {
         name: "description",
         content:
-          "Posez vos questions à Soko : trouver un produit, commander, payer, suivre une livraison ou vendre sur SokoMarket.",
+          "Posez vos questions à Soko : trouver un produit, commander, payer, suivre une livraison ou vendre sur Shop Crew Hub.",
       },
       { property: "og:title", content: "Assistant Soko — aide en direct" },
-      { property: "og:description", content: "L'assistant IA de SokoMarket répond à vos questions." },
+      { property: "og:description", content: "L'assistant IA de Shop Crew Hub répond à vos questions." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

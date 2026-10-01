@@ -9,16 +9,16 @@ import { getMyAccess, submitApplication } from "@/lib/account.functions";
 export const Route = createFileRoute("/_authenticated/mon-compte")({
   head: () => ({
     meta: [
-      { title: "Mon compte — SokoMarket" },
+      { title: "Mon compte — Shop Crew Hub" },
       {
         name: "description",
         content:
-          "Gérez votre compte SokoMarket : rôles, demande de boutique vendeur et certification livreur.",
+          "Gérez votre compte Shop Crew Hub : rôles, demande de boutique vendeur et certification livreur.",
       },
-      { property: "og:title", content: "Mon compte — SokoMarket" },
+      { property: "og:title", content: "Mon compte — Shop Crew Hub" },
       {
         property: "og:description",
-        content: "Rôles, boutique vendeur et certification livreur sur SokoMarket.",
+        content: "Rôles, boutique vendeur et certification livreur sur Shop Crew Hub.",
       },
     ],
   }),

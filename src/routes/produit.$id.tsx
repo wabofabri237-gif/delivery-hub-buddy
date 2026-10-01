@@ -27,12 +27,12 @@ export const Route = createFileRoute("/produit/$id")({
     const name = loaderData?.product?.name ?? "Produit";
     const description =
       loaderData?.product?.description?.slice(0, 155) ??
-      `Achetez ${name} sur SokoMarket et faites-vous livrer près de chez vous.`;
+      `Achetez ${name} sur Shop Crew Hub et faites-vous livrer près de chez vous.`;
     const image = loaderData?.product?.image_url;
     const meta = [
-      { title: `${name} — SokoMarket` },
+      { title: `${name} — Shop Crew Hub` },
       { name: "description", content: description },
-      { property: "og:title", content: `${name} — SokoMarket` },
+      { property: "og:title", content: `${name} — Shop Crew Hub` },
       { property: "og:description", content: description },
       { property: "og:type", content: "product" },
       { name: "twitter:card", content: "summary_large_image" },
