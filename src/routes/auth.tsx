@@ -79,7 +79,7 @@ function AuthPage() {
         await navigate({ to: "/mon-compte" });
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Une erreur est survenue.");
+      setError(friendlyAuthError(err));
     } finally {
       setBusy(false);
     }
@@ -87,15 +87,19 @@ function AuthPage() {
 
   async function onGoogle() {
     setError(null);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
-      setError("Connexion Google indisponible pour le moment.");
-      return;
+    try {
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+      if (result.error) {
+        setError(friendlyAuthError(result.error));
+        return;
+      }
+      if (result.redirected) return;
+      await navigate({ to: "/mon-compte" });
+    } catch (err) {
+      setError(friendlyAuthError(err));
     }
-    if (result.redirected) return;
-    await navigate({ to: "/mon-compte" });
   }
 
   return (
