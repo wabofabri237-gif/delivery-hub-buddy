@@ -1,8 +1,23 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Mail, Lock, User, Phone, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import { BrandLogo } from "@/components/brand-logo";
+
+function friendlyAuthError(err: unknown): string {
+  const msg = err instanceof Error ? err.message : String(err ?? "");
+  if (/failed to fetch|network|load failed|503|502|unavailable/i.test(msg)) {
+    return "Le service de connexion est momentanément indisponible. Réessayez dans quelques instants.";
+  }
+  if (/invalid login credentials/i.test(msg)) return "E-mail ou mot de passe incorrect.";
+  if (/email not confirmed/i.test(msg)) return "Confirmez d'abord votre e-mail (vérifiez votre boîte de réception).";
+  if (/already registered|already exists/i.test(msg)) return "Un compte existe déjà avec cet e-mail. Connectez-vous.";
+  if (/provider is not enabled|unsupported provider/i.test(msg)) {
+    return "Ce mode de connexion n'est pas encore activé.";
+  }
+  return msg || "Une erreur est survenue.";
+}
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -86,14 +101,9 @@ function AuthPage() {
   return (
     <div className="grid min-h-screen place-items-center px-4 py-10">
       <div className="w-full max-w-md">
-        <Link to="/" className="flex items-center justify-center gap-2">
-          <span className="mint-surface grid h-10 w-10 place-items-center rounded-lg font-display text-sm font-bold">
-            SK
-          </span>
-          <span className="font-display text-lg font-bold">
-            Soko<span className="text-primary">Market</span>
-          </span>
-        </Link>
+        <div className="flex justify-center">
+          <BrandLogo compact />
+        </div>
 
         <div className="panel hero-surface mt-6 p-6">
           <h1 className="text-2xl font-bold">
