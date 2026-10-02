@@ -121,45 +121,63 @@ export type Database = {
       }
       orders: {
         Row: {
+          accepted_at: string | null
           address: string | null
           buyer_id: string
           city: string
           courier_id: string | null
           created_at: string
           customer_name: string
+          delivered_at: string | null
           id: string
+          paid_at: string | null
           payment_method: string
+          payment_reference: string | null
+          payment_status: Database["public"]["Enums"]["payment_status"]
           phone: string
+          received_at: string | null
           shop_id: string
           status: Database["public"]["Enums"]["order_status"]
           total: number
           updated_at: string
         }
         Insert: {
+          accepted_at?: string | null
           address?: string | null
           buyer_id: string
           city: string
           courier_id?: string | null
           created_at?: string
           customer_name: string
+          delivered_at?: string | null
           id?: string
+          paid_at?: string | null
           payment_method?: string
+          payment_reference?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"]
           phone: string
+          received_at?: string | null
           shop_id: string
           status?: Database["public"]["Enums"]["order_status"]
           total?: number
           updated_at?: string
         }
         Update: {
+          accepted_at?: string | null
           address?: string | null
           buyer_id?: string
           city?: string
           courier_id?: string | null
           created_at?: string
           customer_name?: string
+          delivered_at?: string | null
           id?: string
+          paid_at?: string | null
           payment_method?: string
+          payment_reference?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"]
           phone?: string
+          received_at?: string | null
           shop_id?: string
           status?: Database["public"]["Enums"]["order_status"]
           total?: number
@@ -405,12 +423,87 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      buyer_cancel_order: { Args: { _order_id: string }; Returns: undefined }
+      buyer_confirm_receipt: { Args: { _order_id: string }; Returns: undefined }
+      confirm_order_payment: {
+        Args: { _order_id: string; _reference: string }
+        Returns: {
+          accepted_at: string | null
+          address: string | null
+          buyer_id: string
+          city: string
+          courier_id: string | null
+          created_at: string
+          customer_name: string
+          delivered_at: string | null
+          id: string
+          paid_at: string | null
+          payment_method: string
+          payment_reference: string | null
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          phone: string
+          received_at: string | null
+          shop_id: string
+          status: Database["public"]["Enums"]["order_status"]
+          total: number
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "orders"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      courier_accept_order: { Args: { _order_id: string }; Returns: undefined }
+      courier_complete_delivery: {
+        Args: { _order_id: string }
+        Returns: undefined
+      }
+      courier_start_delivery: {
+        Args: { _order_id: string }
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      reject_order_payment: {
+        Args: { _cancel: boolean; _order_id: string }
+        Returns: {
+          accepted_at: string | null
+          address: string | null
+          buyer_id: string
+          city: string
+          courier_id: string | null
+          created_at: string
+          customer_name: string
+          delivered_at: string | null
+          id: string
+          paid_at: string | null
+          payment_method: string
+          payment_reference: string | null
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          phone: string
+          received_at: string | null
+          shop_id: string
+          status: Database["public"]["Enums"]["order_status"]
+          total: number
+          updated_at: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "orders"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      submit_payment_reference: {
+        Args: { _order_id: string; _reference: string }
+        Returns: undefined
       }
     }
     Enums: {
@@ -423,6 +516,7 @@ export type Database = {
         | "en_route"
         | "livree"
         | "annulee"
+      payment_status: "en_attente" | "confirme" | "echoue" | "annule"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -554,6 +648,7 @@ export const Constants = {
       application_status: ["en_attente", "approuvee", "rejetee"],
       application_type: ["vendeur", "livreur"],
       order_status: ["en_attente", "preparee", "en_route", "livree", "annulee"],
+      payment_status: ["en_attente", "confirme", "echoue", "annule"],
     },
   },
 } as const
