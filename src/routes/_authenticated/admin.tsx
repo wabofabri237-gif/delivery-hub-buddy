@@ -9,6 +9,7 @@ import {
   decideApplication,
   getAdminStats,
 } from "@/lib/account.functions";
+import { PaymentsPanel } from "@/components/payments-panel";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   loader: () => requireAdmin(),
@@ -130,14 +131,7 @@ function AdminSpace() {
 
         <ApplicationsPanel />
 
-        <section className="panel mt-6 p-5">
-          <h2 className="text-base font-bold">Modules en cours de construction</h2>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Le catalogue produits, les commandes, les paiements Orange Money / MTN MoMo et le
-            suivi de livraison temps réel n'ont pas encore de tables en base : aucune statistique
-            n'est affichée ici pour éviter des chiffres fictifs.
-          </p>
-        </section>
+        <PaymentsPanel />
       </main>
     </div>
   );

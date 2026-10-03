@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ShieldCheck, PackageCheck, MapPin, Wallet } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { SpaceNav } from "@/components/space-nav";
+import { CourierBoard } from "@/components/courier-board";
 import { getMyAccess } from "@/lib/account.functions";
 
 export const Route = createFileRoute("/_authenticated/livreur")({
@@ -84,42 +85,7 @@ function DriverSpace() {
           </p>
         </section>
 
-        <section className="panel mt-5 p-5">
-          <h2 className="text-base font-bold">Mes courses</h2>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Aucune course ne vous est assignée pour l'instant. Les courses apparaîtront ici dès la
-            mise en service du module commandes &amp; livraison temps réel.
-          </p>
-          <ul className="mt-4 grid gap-3 sm:grid-cols-3">
-            {[
-              ["Courses du jour", PackageCheck],
-              ["Gains du jour", Wallet],
-              ["Zone active", MapPin],
-            ].map(([label, Icon]) => {
-              const I = Icon as typeof Wallet;
-              return (
-                <li
-                  key={label as string}
-                  className="rounded-lg border border-border bg-surface/60 p-3"
-                >
-                  <I className="h-4 w-4 text-primary" aria-hidden />
-                  <p className="mt-2 text-xs text-muted-foreground">{label as string}</p>
-                  <p className="font-display text-sm font-bold">
-                    {label === "Zone active" ? (data.profile?.city ?? "—") : "—"}
-                  </p>
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-
-        <section className="panel mt-5 p-5">
-          <h2 className="text-base font-bold">Prochainement</h2>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Acceptation de course, itinéraire GPS et preuve de livraison seront activés avec le
-            module de commandes. Aucune donnée fictive n'est affichée dans cet espace.
-          </p>
-        </section>
+        <CourierBoard />
       </main>
     </div>
   );
