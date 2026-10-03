@@ -209,7 +209,7 @@ export const getMyOrders = createServerFn({ method: "GET" })
     const { data, error } = await supabase
       .from("orders")
       .select(
-        "id, status, total, city, address, phone, customer_name, payment_method, created_at, updated_at, shop_id, order_items(id, name, unit_price, quantity)",
+        "id, status, total, city, address, phone, customer_name, payment_method, payment_status, payment_reference, received_at, created_at, updated_at, shop_id, order_items(id, name, unit_price, quantity)",
       )
       .eq("buyer_id", userId)
       .order("created_at", { ascending: false })
