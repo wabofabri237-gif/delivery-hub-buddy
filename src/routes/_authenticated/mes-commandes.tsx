@@ -6,6 +6,7 @@ import { SpaceNav } from "@/components/space-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { formatFcfa } from "@/lib/marketplace-data";
 import { getMyOrders } from "@/lib/catalog.functions";
+import { OrderActions } from "@/components/order-actions";
 import { ORDER_STATUS_LABELS, type OrderStatus } from "@/lib/vendor-shared";
 
 export const Route = createFileRoute("/_authenticated/mes-commandes")({
@@ -137,6 +138,7 @@ function MyOrdersPage() {
                     {formatFcfa(order.total)}
                   </span>
                 </div>
+                <OrderActions order={order} />
               </li>
             );
           })}
