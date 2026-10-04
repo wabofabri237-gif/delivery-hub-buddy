@@ -49,7 +49,12 @@ function AssistantPage() {
       const res = await ask({ data: { messages: next.slice(-12) } });
       setMessages([...next, { role: "assistant", content: res.reply }]);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "L'assistant ne répond pas.");
+      const msg = e instanceof Error ? e.message : "";
+      setError(
+        /unauthori|401/i.test(msg)
+          ? "Connectez-vous pour discuter avec l'assistant."
+          : msg || "L'assistant ne répond pas.",
+      );
     } finally {
       setBusy(false);
     }

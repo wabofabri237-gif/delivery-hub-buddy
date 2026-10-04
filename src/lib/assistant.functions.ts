@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { publicSupabase } from "@/lib/supabase-public.server";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -12,6 +13,7 @@ N'invente jamais un produit, un prix ou une boutique qui n'est pas dans le catal
 Si l'information manque, dis-le et oriente vers la page d'aide.`;
 
 export const askAssistant = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((input: { messages: ChatMessage[] }) => {
     if (!Array.isArray(input.messages) || input.messages.length === 0)
       throw new Error("Message vide");
@@ -54,7 +56,8 @@ export const askAssistant = createServerFn({ method: "POST" })
         model: "google/gemini-2.5-flash",
         messages: [
           { role: "system", content: `${SYSTEM_PROMPT}\n\nCatalogue actuel :\n${catalogText}` },
-          ...data.messages.map((m) => ({ role: m.role, content: m.content })),
+          // Only the shopper's own messages are trusted; client-supplied "assistant" turns are ignored.
+          ...data.messages.filter((m) => m.role === "user").slice(-6).map((m) => ({ role: "user", content: m.content })),
         ],
       }),
     });
