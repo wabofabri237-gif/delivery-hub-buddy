@@ -135,7 +135,9 @@ export const createOrders = createServerFn({ method: "POST" })
     for (const item of data.items) {
       const product = products.find((p) => p.id === item.product_id);
       if (!product) throw new Error("Un produit n'est plus disponible");
-      const variant = item.variant_id ? variants.find((v) => v.id === item.variant_id) : undefined;
+      const variant = item.variant_id
+        ? variants.find((v) => v.id === item.variant_id && v.product_id === product.id)
+        : undefined;
       if (item.variant_id && !variant) throw new Error("Variante indisponible");
 
       const available = variant ? variant.stock : product.stock;
