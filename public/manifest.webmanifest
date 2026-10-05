@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "SokoMarket",
-  "short_name": "SokoMarket",
-  "description": "Marketplace multi-vendeurs : catalogue, boutiques, paiement mobile money et suivi de livraison en temps réel.",
+  "name": "Shop Crew Hub",
+  "short_name": "Shop Crew Hub",
+  "description": "Achetez sur Shop Crew Hub et faites-vous livrer à domicile au Cameroun.",
   "lang": "fr",
   "dir": "ltr",
   "start_url": "/",
