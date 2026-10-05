@@ -1,23 +1,18 @@
 import { Link } from "@tanstack/react-router";
+import logoIcon from "@/assets/shop-crew-hub-icon.png";
 
-/**
- * Marque Shop Crew Hub — monogramme typographique.
- * Aucun logo image n'est inventé : le fichier officiel remplacera ce bloc une fois fourni.
- */
 export function BrandLogo({ compact = false }: { compact?: boolean }) {
   return (
     <Link to="/" className="flex min-w-0 items-center gap-2">
-      <span className="mint-surface grid h-9 w-9 shrink-0 place-items-center rounded-xl font-display text-sm font-bold">
-        SC
-      </span>
+      <img src={logoIcon} alt="" width={44} height={44} className="h-11 w-11 shrink-0 rounded-sm bg-foreground object-contain" />
       <span
         className={
           compact
-            ? "truncate font-display text-sm font-bold tracking-tight"
-            : "hidden truncate font-display text-base font-bold tracking-tight sm:inline"
+            ? "truncate font-display text-sm font-bold"
+            : "hidden truncate font-display text-base font-bold sm:inline"
         }
       >
-        Shop Crew <span className="text-primary">Hub</span>
+        Shop <span className="text-destructive">Crew</span> <span className="text-warning">Hub</span>
       </span>
     </Link>
   );

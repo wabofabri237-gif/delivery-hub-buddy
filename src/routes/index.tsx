@@ -13,7 +13,7 @@ import {
   Sparkles,
   ArrowRight,
 } from "lucide-react";
-import heroImg from "@/assets/hero-market.jpg";
+import brandArtwork from "@/assets/shop-crew-hub-logo.png";
 import { SpaceNav } from "@/components/space-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { formatFcfa } from "@/lib/marketplace-data";
@@ -41,7 +41,9 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://delivery-hub-buddy.lovable.app/" },
+      { property: "og:image", content: "https://delivery-hub-buddy.lovable.app/shop-crew-hub-logo.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://delivery-hub-buddy.lovable.app/shop-crew-hub-logo.png" },
     ],
     links: [{ rel: "canonical", href: "https://delivery-hub-buddy.lovable.app/" }],
   }),
@@ -267,11 +269,11 @@ function ClientSpace() {
             </div>
 
             <img
-              src={heroImg}
-              alt="Produits et colis prêts pour la livraison"
-              width={1280}
-              height={960}
-              className="w-full rounded-xl border border-border object-cover"
+              src={brandArtwork}
+              alt="Logo Shop Crew Hub : panier, carte du Cameroun et livreur, avec les engagements de la marketplace"
+              width={2400}
+              height={2400}
+              className="mx-auto aspect-square w-full max-w-lg rounded-sm bg-foreground object-contain"
             />
           </div>
         </section>

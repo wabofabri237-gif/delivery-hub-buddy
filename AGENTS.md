@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+Use the generated full-resolution Shop Crew Hub logo for visible brand presentations and its derived text-free illustration for small navigation, favicon, and app-icon surfaces, because fine lettering and feature labels cannot remain legible at tiny sizes.
