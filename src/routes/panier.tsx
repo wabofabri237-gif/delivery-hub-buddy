@@ -199,6 +199,7 @@ function CartPage() {
               {signedIn === false ? (
                 <Link
                   to="/auth"
+                  search={{ next: "/panier" }}
                   className="mint-surface mt-4 block rounded-lg py-3 text-center text-sm font-semibold"
                 >
                   Se connecter pour commander

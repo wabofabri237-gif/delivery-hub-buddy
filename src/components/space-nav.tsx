@@ -47,7 +47,7 @@ export function SpaceNav() {
     await queryClient.cancelQueries();
     queryClient.clear();
     await supabase.auth.signOut();
-    navigate({ to: "/auth", replace: true });
+    navigate({ to: "/auth", search: { next: "/mon-compte" }, replace: true });
   }
 
   function submitSearch(e: React.FormEvent) {
@@ -120,6 +120,7 @@ export function SpaceNav() {
             ) : (
               <Link
                 to="/auth"
+                search={{ next: "/mon-compte" }}
                 className="mint-surface shrink-0 rounded-full px-3 py-2 text-xs font-semibold"
               >
                 Connexion
