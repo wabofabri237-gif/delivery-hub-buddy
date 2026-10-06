@@ -10,3 +10,5 @@
 <!-- LOVABLE:END -->
 
 Use the generated full-resolution Shop Crew Hub logo for visible brand presentations and its derived text-free illustration for small navigation, favicon, and app-icon surfaces, because fine lettering and feature labels cannot remain legible at tiny sizes.
+
+All authentication providers return through the public `/auth/callback` route, which verifies the stored session before sending users to a sanitized same-origin destination, so external OAuth and email confirmation never land directly on a protected page.
