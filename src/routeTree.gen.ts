@@ -24,6 +24,7 @@ import { Route as AuthenticatedLivreurRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedMesCommandesRouteImport } from './routes/_authenticated/mes-commandes'
 import { Route as AuthenticatedMonCompteRouteImport } from './routes/_authenticated/mon-compte'
 import { Route as AuthenticatedVendeurRouteImport } from './routes/_authenticated/vendeur'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as BoutiqueSlugRouteImport } from './routes/boutique.$slug'
 import { Route as ProduitIdRouteImport } from './routes/produit.$id'
 
@@ -102,6 +103,11 @@ const AuthenticatedVendeurRoute = AuthenticatedVendeurRouteImport.update({
   path: '/vendeur',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
+  getParentRoute: () => AuthRoute,
+} as any)
 const BoutiqueSlugRoute = BoutiqueSlugRouteImport.update({
   id: '/boutique/$slug',
   path: '/boutique/$slug',
@@ -118,7 +124,7 @@ export interface FileRoutesByFullPath {
   '/a-propos': typeof AProposRoute
   '/aide': typeof AideRoute
   '/assistant': typeof AssistantRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/boutiques': typeof BoutiquesRoute
   '/confidentialite': typeof ConfidentialiteRoute
   '/panier': typeof PanierRoute
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/mes-commandes': typeof AuthenticatedMesCommandesRoute
   '/mon-compte': typeof AuthenticatedMonCompteRoute
   '/vendeur': typeof AuthenticatedVendeurRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/boutique/$slug': typeof BoutiqueSlugRoute
   '/produit/$id': typeof ProduitIdRoute
 }
@@ -136,7 +143,7 @@ export interface FileRoutesByTo {
   '/a-propos': typeof AProposRoute
   '/aide': typeof AideRoute
   '/assistant': typeof AssistantRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/boutiques': typeof BoutiquesRoute
   '/confidentialite': typeof ConfidentialiteRoute
   '/panier': typeof PanierRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/mes-commandes': typeof AuthenticatedMesCommandesRoute
   '/mon-compte': typeof AuthenticatedMonCompteRoute
   '/vendeur': typeof AuthenticatedVendeurRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/boutique/$slug': typeof BoutiqueSlugRoute
   '/produit/$id': typeof ProduitIdRoute
 }
@@ -156,7 +164,7 @@ export interface FileRoutesById {
   '/a-propos': typeof AProposRoute
   '/aide': typeof AideRoute
   '/assistant': typeof AssistantRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/boutiques': typeof BoutiquesRoute
   '/confidentialite': typeof ConfidentialiteRoute
   '/panier': typeof PanierRoute
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/_authenticated/mes-commandes': typeof AuthenticatedMesCommandesRoute
   '/_authenticated/mon-compte': typeof AuthenticatedMonCompteRoute
   '/_authenticated/vendeur': typeof AuthenticatedVendeurRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/boutique/$slug': typeof BoutiqueSlugRoute
   '/produit/$id': typeof ProduitIdRoute
 }
@@ -186,6 +195,7 @@ export interface FileRouteTypes {
     | '/mes-commandes'
     | '/mon-compte'
     | '/vendeur'
+    | '/auth/callback'
     | '/boutique/$slug'
     | '/produit/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -204,6 +214,7 @@ export interface FileRouteTypes {
     | '/mes-commandes'
     | '/mon-compte'
     | '/vendeur'
+    | '/auth/callback'
     | '/boutique/$slug'
     | '/produit/$id'
   id:
@@ -223,6 +234,7 @@ export interface FileRouteTypes {
     | '/_authenticated/mes-commandes'
     | '/_authenticated/mon-compte'
     | '/_authenticated/vendeur'
+    | '/auth/callback'
     | '/boutique/$slug'
     | '/produit/$id'
   fileRoutesById: FileRoutesById
@@ -233,7 +245,7 @@ export interface RootRouteChildren {
   AProposRoute: typeof AProposRoute
   AideRoute: typeof AideRoute
   AssistantRoute: typeof AssistantRoute
-  AuthRoute: typeof AuthRoute
+  AuthRoute: typeof AuthRouteWithChildren
   BoutiquesRoute: typeof BoutiquesRoute
   ConfidentialiteRoute: typeof ConfidentialiteRoute
   PanierRoute: typeof PanierRoute
@@ -349,6 +361,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedVendeurRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/boutique/$slug': {
       id: '/boutique/$slug'
       path: '/boutique/$slug'
@@ -385,13 +404,23 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface AuthRouteChildren {
+  AuthCallbackRoute: typeof AuthCallbackRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthCallbackRoute: AuthCallbackRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AProposRoute: AProposRoute,
   AideRoute: AideRoute,
   AssistantRoute: AssistantRoute,
-  AuthRoute: AuthRoute,
+  AuthRoute: AuthRouteWithChildren,
   BoutiquesRoute: BoutiquesRoute,
   ConfidentialiteRoute: ConfidentialiteRoute,
   PanierRoute: PanierRoute,
