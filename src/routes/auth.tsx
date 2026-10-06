@@ -20,6 +20,14 @@ function friendlyAuthError(err: unknown): string {
 }
 
 export const Route = createFileRoute("/auth")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    next:
+      typeof search["next"] === "string" &&
+      search["next"].startsWith("/") &&
+      !search["next"].startsWith("//")
+        ? search["next"]
+        : "/mon-compte",
+  }),
   head: () => ({
     meta: [
       { title: "Connexion & inscription — Shop Crew Hub" },
@@ -40,6 +48,7 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -60,7 +69,7 @@ function AuthPage() {
           email: email.trim(),
           password,
           options: {
-            emailRedirectTo: window.location.origin,
+            emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
             data: { full_name: fullName.trim(), phone: phone.trim() },
           },
         });
@@ -69,14 +78,14 @@ function AuthPage() {
           setInfo("Compte créé. Vérifiez votre e-mail pour confirmer votre inscription.");
           return;
         }
-        await navigate({ to: "/mon-compte" });
+        await navigate({ to: next });
       } else {
         const { error: err } = await supabase.auth.signInWithPassword({
           email: email.trim(),
           password,
         });
         if (err) throw err;
-        await navigate({ to: "/mon-compte" });
+        await navigate({ to: next });
       }
     } catch (err) {
       setError(friendlyAuthError(err));
@@ -89,14 +98,15 @@ function AuthPage() {
     setError(null);
     try {
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+        redirect_uri: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
+        extraParams: { prompt: "select_account" },
       });
       if (result.error) {
         setError(friendlyAuthError(result.error));
         return;
       }
       if (result.redirected) return;
-      await navigate({ to: "/mon-compte" });
+      await navigate({ to: next });
     } catch (err) {
       setError(friendlyAuthError(err));
     }

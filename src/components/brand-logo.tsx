@@ -4,7 +4,13 @@ import logoIcon from "@/assets/shop-crew-hub-icon.png";
 export function BrandLogo({ compact = false }: { compact?: boolean }) {
   return (
     <Link to="/" className="flex min-w-0 items-center gap-2">
-      <img src={logoIcon} alt="" width={44} height={44} className="h-11 w-11 shrink-0 rounded-sm bg-foreground object-contain" />
+      <img
+        src={logoIcon}
+        alt=""
+        width={52}
+        height={52}
+        className="h-12 w-12 shrink-0 object-contain drop-shadow-sm"
+      />
       <span
         className={
           compact
