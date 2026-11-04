@@ -10,7 +10,7 @@ import { MARKETPLACE_CATEGORIES, filterCategoryProducts } from "@/lib/categories
 import { listPublicCatalog } from "@/lib/vendor.functions";
 
 export const Route = createFileRoute("/categories")({
-  validateSearch: (search: Record<string, unknown>): { categorie?: string } => typeof search.categorie === "string" ? { categorie: search.categorie } : {},
+  validateSearch: (search: Record<string, unknown>): { categorie?: string } => typeof search["categorie"] === "string" ? { categorie: search["categorie"] } : {},
   loader: () => listPublicCatalog(),
   head: ({ match }) => {
     const category = MARKETPLACE_CATEGORIES.find((c) => c.slug === match.search.categorie);

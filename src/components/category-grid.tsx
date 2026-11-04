@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const icons = [Smartphone, Shirt, FlaskConical, Apple, House, Car, Laptop, Footprints, Watch, HeartPulse];
 const tones = ["text-primary bg-primary/10", "text-destructive bg-destructive/10", "text-warning bg-warning/10", "text-primary bg-primary/10", "text-warning bg-warning/10"];
 
-export function CategoryGrid({ products, selected }: { products: { category: string }[]; selected?: string }) {
+export function CategoryGrid({ products, selected }: { products: { category: string }[]; selected?: string | undefined }) {
   return (
     <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
       {MARKETPLACE_CATEGORIES.map((category, i) => {
