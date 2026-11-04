@@ -1,4 +1,8 @@
 # Roadmap
+- [ ] Ajouter le serveur MCP protégé avec lectures limitées et permissions existantes.
+- [ ] Ajouter le consentement OAuth et préserver le retour après connexion.
+- [ ] Ajouter les outils de lecture pour agents dans le navigateur.
+- [ ] Vérifier le manifeste, les refus d’accès et le consentement.
 - [x] Améliorer l’accueil et les cartes produits sans modifier les workflows métier.
 - [x] Créer les dix catégories et filtrer uniquement les produits correspondants.
 - [x] Séparer Catégories et Boutiques dans la navigation, y compris mobile.
