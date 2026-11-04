@@ -1,3 +1,5 @@
+import { MARKETPLACE_CATEGORIES } from "@/lib/categories";
+
 export const ORDER_STATUSES = ["en_attente", "preparee", "en_route", "livree", "annulee"] as const;
 export type OrderStatus = (typeof ORDER_STATUSES)[number];
 
@@ -13,12 +15,11 @@ export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
 };
 
 export const PRODUCT_CATEGORIES = [
+  ...MARKETPLACE_CATEGORIES.map((c) => c.name),
   "Électronique",
   "Mode",
-  "Maison",
   "Beauté",
   "Sport",
-  "Alimentation",
   "Autre",
 ] as const;
 

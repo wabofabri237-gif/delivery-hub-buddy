@@ -2,23 +2,23 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   Search,
-  ShoppingBag,
   SlidersHorizontal,
   Truck,
   ShieldCheck,
   BadgeCheck,
   Headphones,
   Store,
-  LayoutGrid,
   Sparkles,
   ArrowRight,
 } from "lucide-react";
 import brandArtwork from "@/assets/shop-crew-hub-logo.png";
+import marketplaceCover from "@/assets/marketplace-cover.jpg";
+import { CategoryGrid } from "@/components/category-grid";
+import { ProductCard, type CatalogProduct } from "@/components/product-card";
+import { Button } from "@/components/ui/button";
 import { SpaceNav } from "@/components/space-nav";
 import { SiteFooter } from "@/components/site-footer";
-import { formatFcfa } from "@/lib/marketplace-data";
 import { listPublicCatalog, listPublicShops } from "@/lib/vendor.functions";
-import { useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>) =>
@@ -41,9 +41,7 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://delivery-hub-buddy.lovable.app/" },
-      { property: "og:image", content: "https://delivery-hub-buddy.lovable.app/shop-crew-hub-logo.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://delivery-hub-buddy.lovable.app/shop-crew-hub-logo.png" },
     ],
     links: [{ rel: "canonical", href: "https://delivery-hub-buddy.lovable.app/" }],
   }),
@@ -68,17 +66,6 @@ export const Route = createFileRoute("/")({
   component: ClientSpace,
 });
 
-type CatalogProduct = {
-  id: string;
-  name: string;
-  price: number;
-  category: string;
-  stock: number;
-  image_url: string | null;
-  shop_name: string;
-  shop_slug: string;
-};
-
 type PublicShop = {
   id: string;
   name: string;
@@ -87,90 +74,6 @@ type PublicShop = {
   city: string | null;
   logo_url: string | null;
 };
-
-function ProductCard({ p }: { p: CatalogProduct }) {
-  const cart = useCart();
-  const [added, setAdded] = useState(false);
-
-  function addToCart() {
-    if (p.stock <= 0) return;
-    cart.add({
-      product_id: p.id,
-      variant_id: null,
-      name: p.name,
-      variant_label: null,
-      unit_price: p.price,
-      quantity: 1,
-      image_url: p.image_url,
-      shop_name: p.shop_name,
-      shop_slug: p.shop_slug,
-      max_stock: p.stock,
-    });
-    setAdded(true);
-    window.setTimeout(() => setAdded(false), 1600);
-  }
-
-  return (
-    <li className="panel group flex flex-col overflow-hidden p-3">
-      <Link
-        to="/produit/$id"
-        params={{ id: p.id }}
-        className="relative grid aspect-square place-items-center overflow-hidden rounded-lg bg-muted/60"
-      >
-        {p.image_url ? (
-          <img
-            src={p.image_url}
-            alt={p.name}
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        ) : (
-          <span className="font-display text-3xl font-bold text-primary/40">
-            {p.name.charAt(0)}
-          </span>
-        )}
-      </Link>
-      <Link
-        to="/produit/$id"
-        params={{ id: p.id }}
-        className="mt-3 line-clamp-2 text-sm font-semibold hover:text-primary"
-      >
-        {p.name}
-      </Link>
-      <Link
-        to="/boutique/$slug"
-        params={{ slug: p.shop_slug }}
-        className="block truncate text-xs text-muted-foreground hover:text-primary"
-      >
-        {p.shop_name}
-      </Link>
-      <div className="mt-1 flex flex-wrap items-center gap-1 text-[11px] text-muted-foreground">
-        <span className="rounded-full border border-border px-2 py-0.5">{p.category}</span>
-        {p.stock > 0 ? (
-          <span>{p.stock} en stock</span>
-        ) : (
-          <span className="text-destructive">Rupture</span>
-        )}
-      </div>
-      <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
-        <span className="truncate font-display text-sm font-bold">{formatFcfa(p.price)}</span>
-        <button
-          type="button"
-          onClick={addToCart}
-          disabled={p.stock <= 0}
-          aria-label={`Ajouter ${p.name} au panier`}
-          className="mint-surface grid h-9 w-9 shrink-0 place-items-center rounded-lg disabled:opacity-40"
-        >
-          {added ? (
-            <BadgeCheck className="h-4 w-4" aria-hidden />
-          ) : (
-            <ShoppingBag className="h-4 w-4" aria-hidden />
-          )}
-        </button>
-      </div>
-    </li>
-  );
-}
 
 function SectionTitle({
   title,
@@ -216,102 +119,48 @@ function ClientSpace() {
   }, [products, category, query]);
 
   const nouveautes = useMemo(() => products.slice(0, 8), [products]);
-  const vendorCount = useMemo(() => new Set(products.map((p) => p.shop_slug)).size, [products]);
+
 
   return (
     <div className="min-h-screen">
       <SpaceNav />
 
       <main className="mx-auto max-w-6xl px-4 pb-24">
-        <section className="hero-surface panel relative mt-6 overflow-hidden">
-          <div className="grid gap-6 p-6 sm:p-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
-            <div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/70 px-3 py-1 text-xs text-primary">
-                <Truck className="h-3.5 w-3.5" aria-hidden /> Livraison suivie au Cameroun
-              </span>
-              <h1 className="mt-5 text-3xl font-bold leading-[1.08] sm:text-5xl">
-                Tout ce dont vous avez besoin,
-                <br />
-                <span className="text-primary">au même endroit.</span>
-              </h1>
-              <p className="mt-4 max-w-md text-sm text-muted-foreground">
-                Shop Crew Hub réunit les boutiques de votre ville : commandez, payez à la
-                livraison et suivez votre commande.
-              </p>
-
-              <div className="mt-6 flex flex-wrap gap-2">
-                <a
-                  href="#catalogue"
-                  className="mint-surface glow inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold"
-                >
-                  Commencer mes achats <ArrowRight className="h-4 w-4" aria-hidden />
-                </a>
-                <Link
-                  to="/vendeur"
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/70 px-5 py-3 text-sm font-semibold hover:text-primary"
-                >
-                  <Store className="h-4 w-4" aria-hidden /> Devenir vendeur
-                </Link>
-              </div>
-
-              <dl className="mt-7 flex flex-wrap gap-x-8 gap-y-3">
-                {[
-                  [String(products.length), "Produits"],
-                  [String(vendorCount), "Vendeurs"],
-                  [String(categories.length), "Catégories"],
-                ].map(([v, l]) => (
-                  <div key={l}>
-                    <dt className="font-display text-xl font-bold text-primary">{v}</dt>
-                    <dd className="text-xs text-muted-foreground">{l}</dd>
-                  </div>
-                ))}
-              </dl>
+        <section className="relative -mx-4 overflow-hidden bg-market-cover text-market-ink sm:mx-0 sm:mt-6" aria-label="Shop Crew Hub">
+          <img src={marketplaceCover} alt="Sélection illustrée d’articles : téléphone, chaussures, beauté, mode et alimentation" width={1536} height={1024} className="absolute inset-0 h-full w-full object-cover object-left sm:object-center" fetchPriority="high" />
+          <div className="relative max-w-xl px-5 py-10 sm:px-9 sm:py-14 lg:py-16">
+            <span className="inline-flex items-center gap-2 text-xs font-semibold text-market-subtle"><Truck className="h-4 w-4" aria-hidden /> Votre marketplace au Cameroun</span>
+            <h1 className="mt-5 text-3xl font-bold sm:text-5xl">Shop Crew Hub</h1>
+            <p className="mt-4 max-w-80 font-display text-xl font-semibold leading-snug sm:max-w-sm sm:text-2xl">Tout ce dont vous avez besoin, au même endroit.</p>
+            <p className="mt-4 max-w-72 text-sm leading-relaxed text-market-subtle sm:max-w-80">Les boutiques de votre ville, réunies pour vos achats du quotidien.</p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Button asChild className="h-11"><a href="#catalogue">Commencer mes achats <ArrowRight aria-hidden /></a></Button>
+              <Button asChild variant="outline" className="h-11 border-market-subtle/25 bg-market-cover/80 text-market-ink hover:bg-market-cover hover:text-market-ink"><Link to="/vendeur"><Store aria-hidden />Devenir vendeur</Link></Button>
             </div>
-
-            <img
-              src={brandArtwork}
-              alt="Logo Shop Crew Hub : panier, carte du Cameroun et livreur, avec les engagements de la marketplace"
-              width={2400}
-              height={2400}
-              className="mx-auto aspect-square w-full max-w-lg rounded-sm bg-foreground object-contain"
-            />
           </div>
         </section>
 
-        {/* Catégories */}
-        <section className="mt-10">
-          <SectionTitle title="Catégories" id="categories" />
-          {categories.length === 0 ? (
-            <p className="panel mt-4 p-5 text-xs text-muted-foreground">
-              Les catégories apparaîtront dès que les vendeurs publieront leurs produits.
-            </p>
-          ) : (
-            <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-              {categories.map((c) => (
-                <li key={c}>
-                  <a
-                    href="#catalogue"
-                    onClick={() => setCategory(c)}
-                    className="panel flex items-center gap-2 p-3 text-xs font-medium hover:border-primary"
-                  >
-                    <LayoutGrid className="h-4 w-4 shrink-0 text-primary" aria-hidden />
-                    <span className="truncate">{c}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          )}
+        <div className="grid grid-cols-2 gap-x-4 gap-y-4 border-b border-border py-6 sm:grid-cols-4">
+          {[[BadgeCheck, "Vendeurs vérifiés"], [ShieldCheck, "Paiement à la livraison"], [Truck, "Livraison suivie"], [Headphones, "Service client"]].map(([Icon, label]) => {
+            const I = Icon as typeof BadgeCheck;
+            return <div key={label as string} className="flex items-center gap-2 text-xs font-medium sm:text-sm"><I className="h-5 w-5 shrink-0 text-primary" aria-hidden /><span>{label as string}</span></div>;
+          })}
+        </div>
+
+        <section className="mt-9">
+          <div className="mb-5 flex flex-wrap items-center justify-between gap-3"><SectionTitle title="Catégories populaires" /><Button asChild variant="link" className="px-0"><Link to="/categories">Toutes les catégories <ArrowRight aria-hidden /></Link></Button></div>
+          <CategoryGrid products={products} />
         </section>
 
         {/* Nouveautés */}
         <section className="mt-10">
           <SectionTitle title="Nouveautés" hint="Les derniers produits publiés par nos vendeurs." />
           {nouveautes.length === 0 ? (
-            <p className="panel mt-4 p-5 text-xs text-muted-foreground">
+            <p className="mt-4 border-y border-border py-8 text-sm text-muted-foreground">
               Aucun produit publié pour le moment.
             </p>
           ) : (
-            <ul className="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
               {nouveautes.map((p) => (
                 <ProductCard key={p.id} p={p} />
               ))}
@@ -319,28 +168,24 @@ function ClientSpace() {
           )}
         </section>
 
-        {/* Meilleures ventes & promotions : honnêteté des données */}
-        <section className="mt-10 grid gap-4 md:grid-cols-2">
-          <div className="panel p-5">
-            <h2 className="text-base font-bold">Meilleures ventes</h2>
-            <p className="mt-2 text-xs text-muted-foreground">
-              Ce classement s'affichera dès que des commandes auront été livrées. Nous ne
-              publions aucun chiffre de vente inventé.
-            </p>
-          </div>
-          <div className="panel p-5">
-            <h2 className="text-base font-bold">Promotions</h2>
-            <p className="mt-2 text-xs text-muted-foreground">
-              Aucune promotion en cours. Les remises proposées par les vendeurs apparaîtront ici.
-            </p>
-          </div>
+        <section className="mt-10 border-y border-border py-8">
+          <SectionTitle title="Produits populaires" />
+          <p className="mt-3 text-sm text-muted-foreground">Le classement des produits populaires n’est pas encore disponible.</p>
+        </section>
+        <section className="mt-10">
+          <SectionTitle title="Promotions" />
+          <p className="mt-4 border-y border-border py-8 text-sm text-muted-foreground">Aucune promotion en cours pour le moment.</p>
+        </section>
+        <section className="mt-10">
+          <SectionTitle title="Meilleures ventes" />
+          <p className="mt-3 text-sm text-muted-foreground">Le classement des meilleures ventes n’est pas encore disponible.</p>
         </section>
 
         {/* Boutiques */}
         <section className="mt-10">
-          <SectionTitle title="Boutiques" hint="Les boutiques actives sur Shop Crew Hub." />
+          <div className="flex flex-wrap items-center justify-between gap-3"><SectionTitle title="Boutiques populaires" hint="Découvrez les boutiques actives. Le classement par popularité n’est pas encore disponible." /><Button asChild variant="link" className="px-0"><Link to="/boutiques">Toutes les boutiques <ArrowRight aria-hidden /></Link></Button></div>
           {shops.length === 0 ? (
-            <p className="panel mt-4 p-5 text-xs text-muted-foreground">
+            <p className="mt-4 border-y border-border py-8 text-sm text-muted-foreground">
               Aucune boutique active pour l'instant.
             </p>
           ) : (
@@ -350,9 +195,9 @@ function ClientSpace() {
                   <Link
                     to="/boutique/$slug"
                     params={{ slug: s.slug }}
-                    className="panel flex items-center gap-3 p-4 hover:border-primary"
+                    className="flex items-center gap-3 rounded-lg border border-border bg-card p-5 transition-colors hover:border-primary"
                   >
-                    <span className="mint-surface grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-xl font-display text-sm font-bold">
+                    <span className="mint-surface grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-lg font-display text-sm font-bold">
                       {s.logo_url ? (
                         <img
                           src={s.logo_url}
@@ -397,19 +242,21 @@ function ClientSpace() {
             />
           </label>
 
-          <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
+          <div className="mt-4 flex gap-2 overflow-x-auto pb-2" role="group" aria-label="Filtrer le catalogue">
             {tabs.map((c) => (
-              <button
+              <Button
                 key={c}
+                variant={c === category ? "default" : "outline"}
+                aria-pressed={c === category}
                 onClick={() => setCategory(c)}
                 className={
                   c === category
-                    ? "mint-surface shrink-0 rounded-full px-4 py-2 text-xs font-semibold"
-                    : "shrink-0 rounded-full border border-border bg-surface/60 px-4 py-2 text-xs text-muted-foreground"
+                    ? "h-11 shrink-0 text-xs font-semibold"
+                    : "h-11 shrink-0 text-xs text-muted-foreground"
                 }
               >
                 {c}
-              </button>
+              </Button>
             ))}
           </div>
 
@@ -418,7 +265,7 @@ function ClientSpace() {
               Aucun produit ne correspond à votre recherche.
             </p>
           ) : (
-            <ul className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
               {visible.map((p) => (
                 <ProductCard key={p.id} p={p} />
               ))}
@@ -476,6 +323,7 @@ function ClientSpace() {
             </Link>
           </div>
         </section>
+        <div className="mt-12 border-t border-border pt-8"><img src={brandArtwork} alt="Shop Crew Hub — Le marketplace du Cameroun" width={2400} height={2400} loading="lazy" className="mx-auto w-64 max-w-full rounded-lg" /></div>
       </main>
 
       <SiteFooter />
