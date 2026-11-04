@@ -16,3 +16,9 @@ All authentication providers return through the public `/auth/callback` route, w
 Public category navigation uses a shared category-to-legacy-label mapping and exact normalized label matching, never product-name guessing, so existing product categories remain readable without database rewrites.
 
 Homepage and category listings reuse the same product card and existing catalog reads; popularity and promotions require actual supporting data, never inferred from stock or recency.
+
+MCP tools are read-only, verify OAuth client tokens, and use caller-scoped database clients plus RLS; order reads additionally filter buyer_id to the caller to avoid exposing role-wide data.
+
+OAuth consent uses the existing sign-in flow with a canonical same-origin return path, and auth/MCP routes are excluded from offline navigation caching.
+
+Browser agent registrations live in the visible screen component and expose only current-view reads, with best-effort static-name telemetry and no consequential actions.
