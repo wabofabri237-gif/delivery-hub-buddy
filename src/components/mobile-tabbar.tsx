@@ -4,7 +4,7 @@ import { useCart } from "@/lib/cart";
 
 const tabs = [
   { to: "/", label: "Accueil", icon: Home, exact: true },
-  { to: "/boutiques", label: "Catégories", icon: LayoutGrid, exact: false },
+  { to: "/categories", label: "Catégories", icon: LayoutGrid, exact: false },
   { to: "/panier", label: "Panier", icon: ShoppingCart, exact: false },
   { to: "/mes-commandes", label: "Commandes", icon: PackageSearch, exact: false },
   { to: "/mon-compte", label: "Profil", icon: UserRound, exact: false },
@@ -24,8 +24,8 @@ export function MobileTabBar() {
             <Link
               to={to}
               activeOptions={{ exact }}
-              className="relative flex h-14 flex-col items-center justify-center gap-1 text-[10px] font-medium text-muted-foreground"
-              activeProps={{ className: "!text-primary" }}
+               className="relative flex h-16 flex-col items-center justify-center gap-1 text-[11px] font-medium text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+               activeProps={{ className: "!text-primary bg-primary/5" }}
             >
               <span className="relative">
                 <Icon className="h-5 w-5" aria-hidden />

@@ -16,6 +16,7 @@ import { Route as AideRouteImport } from './routes/aide'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BoutiquesRouteImport } from './routes/boutiques'
+import { Route as CategoriesRouteImport } from './routes/categories'
 import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
 import { Route as PanierRouteImport } from './routes/panier'
 import { Route as SecuriteRouteImport } from './routes/securite'
@@ -60,6 +61,11 @@ const AuthRoute = AuthRouteImport.update({
 const BoutiquesRoute = BoutiquesRouteImport.update({
   id: '/boutiques',
   path: '/boutiques',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategoriesRoute = CategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfidentialiteRoute = ConfidentialiteRouteImport.update({
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRouteWithChildren
   '/boutiques': typeof BoutiquesRoute
+  '/categories': typeof CategoriesRoute
   '/confidentialite': typeof ConfidentialiteRoute
   '/panier': typeof PanierRoute
   '/securite': typeof SecuriteRoute
@@ -145,6 +152,7 @@ export interface FileRoutesByTo {
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRouteWithChildren
   '/boutiques': typeof BoutiquesRoute
+  '/categories': typeof CategoriesRoute
   '/confidentialite': typeof ConfidentialiteRoute
   '/panier': typeof PanierRoute
   '/securite': typeof SecuriteRoute
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRouteWithChildren
   '/boutiques': typeof BoutiquesRoute
+  '/categories': typeof CategoriesRoute
   '/confidentialite': typeof ConfidentialiteRoute
   '/panier': typeof PanierRoute
   '/securite': typeof SecuriteRoute
@@ -187,6 +196,7 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/auth'
     | '/boutiques'
+    | '/categories'
     | '/confidentialite'
     | '/panier'
     | '/securite'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/auth'
     | '/boutiques'
+    | '/categories'
     | '/confidentialite'
     | '/panier'
     | '/securite'
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/auth'
     | '/boutiques'
+    | '/categories'
     | '/confidentialite'
     | '/panier'
     | '/securite'
@@ -247,6 +259,7 @@ export interface RootRouteChildren {
   AssistantRoute: typeof AssistantRoute
   AuthRoute: typeof AuthRouteWithChildren
   BoutiquesRoute: typeof BoutiquesRoute
+  CategoriesRoute: typeof CategoriesRoute
   ConfidentialiteRoute: typeof ConfidentialiteRoute
   PanierRoute: typeof PanierRoute
   SecuriteRoute: typeof SecuriteRoute
@@ -303,6 +316,13 @@ declare module '@tanstack/react-router' {
       path: '/boutiques'
       fullPath: '/boutiques'
       preLoaderRoute: typeof BoutiquesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/categories': {
+      id: '/categories'
+      path: '/categories'
+      fullPath: '/categories'
+      preLoaderRoute: typeof CategoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/confidentialite': {
@@ -422,6 +442,7 @@ const rootRouteChildren: RootRouteChildren = {
   AssistantRoute: AssistantRoute,
   AuthRoute: AuthRouteWithChildren,
   BoutiquesRoute: BoutiquesRoute,
+  CategoriesRoute: CategoriesRoute,
   ConfidentialiteRoute: ConfidentialiteRoute,
   PanierRoute: PanierRoute,
   SecuriteRoute: SecuriteRoute,

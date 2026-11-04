@@ -15,6 +15,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/lib/cart";
 import { BrandLogo } from "@/components/brand-logo";
+import { Button } from "@/components/ui/button";
 
 const spaces = [
   { to: "/vendeur", label: "Vendeur", icon: Store },
@@ -77,7 +78,7 @@ export function SpaceNav() {
             </form>
 
             <Link
-              to="/boutiques"
+              to="/categories"
               className="hidden items-center gap-1.5 rounded-full border border-border bg-surface/60 px-3 py-2 text-xs text-muted-foreground hover:text-foreground sm:flex"
             >
               <LayoutGrid className="h-3.5 w-3.5" aria-hidden /> Catégories
@@ -109,13 +110,13 @@ export function SpaceNav() {
                 >
                   <UserRound className="h-4 w-4" aria-hidden />
                 </Link>
-                <button
+                <Button variant="ghost" size="icon"
                   onClick={signOut}
                   aria-label="Se déconnecter"
                   className="grid h-9 w-9 place-items-center rounded-full border border-border bg-surface/70 text-muted-foreground"
                 >
                   <LogOut className="h-4 w-4" aria-hidden />
-                </button>
+                </Button>
               </>
             ) : (
               <Link
@@ -142,7 +143,11 @@ export function SpaceNav() {
           </label>
         </form>
 
-        <nav className="mt-2 flex items-center gap-1 overflow-x-auto pb-0.5">
+        <nav aria-label="Explorer Shop Crew Hub" className="mt-3 flex items-center gap-1 overflow-x-auto border-t border-border pt-3 pb-0.5">
+          <Button asChild variant="ghost" size="sm" className="shrink-0"><Link to="/" activeOptions={{ exact: true }} activeProps={{ className: "text-primary bg-primary/10" }}>Accueil</Link></Button>
+          <Button asChild variant="ghost" size="sm" className="shrink-0"><Link to="/categories" activeProps={{ className: "text-primary bg-primary/10" }}><LayoutGrid aria-hidden />Catégories</Link></Button>
+          <Button asChild variant="ghost" size="sm" className="shrink-0"><Link to="/boutiques" activeProps={{ className: "text-primary bg-primary/10" }}><Store aria-hidden />Boutiques</Link></Button>
+          <span className="mx-2 h-5 shrink-0 border-l border-border" aria-hidden />
           {spaces.map(({ to, label, icon: Icon }) => (
             <Link
               key={to}

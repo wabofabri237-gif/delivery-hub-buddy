@@ -12,3 +12,7 @@
 Use the generated full-resolution Shop Crew Hub logo for visible brand presentations and its derived text-free illustration for small navigation, favicon, and app-icon surfaces, because fine lettering and feature labels cannot remain legible at tiny sizes.
 
 All authentication providers return through the public `/auth/callback` route, which verifies the stored session before sending users to a sanitized same-origin destination, so external OAuth and email confirmation never land directly on a protected page.
+
+Public category navigation uses a shared category-to-legacy-label mapping and exact normalized label matching, never product-name guessing, so existing product categories remain readable without database rewrites.
+
+Homepage and category listings reuse the same product card and existing catalog reads; popularity and promotions require actual supporting data, never inferred from stock or recency.
