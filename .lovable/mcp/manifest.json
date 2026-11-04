@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "sdk_version": "3.4.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://zdhqqsadqndcjyzxsdjx.supabase.co/auth/v1",
+    "require_oauth_client_claim": true,
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "nboashop-le-march-pr-t-de-chez-vous",
+      "version": "1.0.0",
+      "title": "Nboashop le marché prêt de chez vous"
+    },
+    "tools": [
+      {
+        "name": "list_categories",
+        "title": "Consulter les catégories",
+        "description": "Lister les catégories du marketplace et leurs identifiants pour rechercher des produits.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": null,
+        "outputSchema": null
+      },
+      {
+        "name": "search_products",
+        "title": "Rechercher des produits",
+        "description": "Consulter les produits publiés des boutiques actives, avec recherche et catégorie facultatives.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "maxLength": 120,
+              "description": "Texte recherché dans le nom du produit."
+            },
+            "category": {
+              "type": "string",
+              "description": "Identifiant de catégorie retourné par list_categories."
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "default": 15,
+              "description": "Nombre maximal de résultats, de 1 à 30."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_my_orders",
+        "title": "Consulter mes commandes",
+        "description": "Lire uniquement les commandes achetées par le compte connecté et leurs statuts, sans les modifier.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "default": 10,
+              "description": "Nombre maximal de commandes récentes."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}

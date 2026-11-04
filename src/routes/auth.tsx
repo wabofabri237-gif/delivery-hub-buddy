@@ -4,6 +4,7 @@ import { Mail, Lock, User, Phone, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { BrandLogo } from "@/components/brand-logo";
+import { oauthReturnPath } from "@/lib/oauth-return-path";
 
 function friendlyAuthError(err: unknown): string {
   const msg = err instanceof Error ? err.message : String(err ?? "");
@@ -21,12 +22,7 @@ function friendlyAuthError(err: unknown): string {
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (search: Record<string, unknown>) => ({
-    next:
-      typeof search["next"] === "string" &&
-      search["next"].startsWith("/") &&
-      !search["next"].startsWith("//")
-        ? search["next"]
-        : "/mon-compte",
+    next: search["next"] === undefined ? "/mon-compte" : oauthReturnPath(search["next"]),
   }),
   head: () => ({
     meta: [
@@ -37,6 +33,8 @@ export const Route = createFileRoute("/auth")({
           "Créez votre compte Shop Crew Hub pour acheter, ouvrir une boutique ou devenir livreur certifié.",
       },
       { property: "og:title", content: "Connexion & inscription — Shop Crew Hub" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       {
         property: "og:description",
         content: "Comptes client, vendeur et livreur sur la marketplace Shop Crew Hub.",

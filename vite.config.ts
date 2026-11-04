@@ -6,6 +6,7 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import { VitePWA } from "vite-plugin-pwa";
+import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/tanstack/vite";
 
 export default defineConfig({
   tanstackStart: {
@@ -15,6 +16,7 @@ export default defineConfig({
   },
   vite: {
     plugins: [
+      mcpPlugin(),
       VitePWA({
         strategies: "generateSW",
         registerType: "autoUpdate",
@@ -60,13 +62,13 @@ export default defineConfig({
           globDirectory: "dist/client",
           globPatterns: ["**/*.{js,css,html,png,jpg,jpeg,svg,webp,woff2}"],
           navigateFallback: "/offline.html",
-          navigateFallbackDenylist: [/^\/~oauth/, /^\/api\//, /^\/_serverFn\//],
+          navigateFallbackDenylist: [/^\/~oauth/, /^\/api\//, /^\/_serverFn\//, /^\/mcp/, /^\/\.well-known\//, /^\/\.lovable\/oauth\//, /^\/auth/],
           cleanupOutdatedCaches: true,
           clientsClaim: true,
           skipWaiting: true,
           runtimeCaching: [
             {
-              urlPattern: ({ request }: { request: Request }) => request.mode === "navigate",
+              urlPattern: ({ request, url }: { request: Request; url: URL }) => request.mode === "navigate" && !/^\/(auth|mcp|\.lovable\/oauth|\.well-known)(\/|$)/.test(url.pathname),
               handler: "NetworkFirst",
               options: {
                 cacheName: "html-navigations",
