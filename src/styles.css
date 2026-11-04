@@ -49,9 +49,15 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --color-market-cover: var(--market-cover);
+  --color-market-ink: var(--market-ink);
+  --color-market-subtle: var(--market-subtle);
 }
 
 :root {
+  --market-cover: oklch(0.955 0.009 255);
+  --market-ink: oklch(0.2 0.025 255);
+  --market-subtle: oklch(0.4 0.02 255);
   --radius: 0.875rem;
   --background: oklch(0.15 0.028 255);
   --foreground: oklch(0.97 0.004 240);
@@ -121,7 +127,7 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
   }
 }
 
