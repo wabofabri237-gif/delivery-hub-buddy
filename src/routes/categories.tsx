@@ -8,6 +8,8 @@ import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
 import { MARKETPLACE_CATEGORIES, filterCategoryProducts } from "@/lib/categories";
 import { listPublicCatalog } from "@/lib/vendor.functions";
+import { useWebMCP } from "use-webmcp-tool";
+import { runWebMCPTool } from "@/lib/webmcp-telemetry";
 
 export const Route = createFileRoute("/categories")({
   validateSearch: (search: Record<string, unknown>): { categorie?: string } => typeof search["categorie"] === "string" ? { categorie: search["categorie"] } : {},
@@ -29,6 +31,12 @@ function CategoriesPage() {
   const selected = MARKETPLACE_CATEGORIES.find((c) => c.slug === categorie);
   const categoryProducts = categorie ? filterCategoryProducts(products, categorie) : [];
   const visible = categoryProducts.filter((p) => `${p.name} ${p.shop_name}`.toLocaleLowerCase("fr").includes(query.trim().toLocaleLowerCase("fr")));
+  useWebMCP({
+    name: "read_category_view",
+    description: "Lire les catégories et les produits visibles de la catégorie sélectionnée, sans changer de page ni de filtre.",
+    annotations: { readOnlyHint: true, untrustedContentHint: true },
+    execute: () => runWebMCPTool("read_category_view", () => !categorie ? MARKETPLACE_CATEGORIES.map((c) => `${c.slug}: ${c.name}`).join("\n") : visible.length ? visible.map((p) => `${p.id}: ${p.name} — ${p.price} FCFA — ${p.shop_name}`).join("\n") : "Aucun produit dans la catégorie affichée."),
+  });
   return (
     <><SpaceNav /><main className="mx-auto max-w-6xl px-4 pb-12 pt-8 sm:pt-10">
       <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
