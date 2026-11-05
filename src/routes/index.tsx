@@ -19,6 +19,8 @@ import { Button } from "@/components/ui/button";
 import { SpaceNav } from "@/components/space-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { listPublicCatalog, listPublicShops } from "@/lib/vendor.functions";
+import { useWebMCP } from "use-webmcp-tool";
+import { runWebMCPTool } from "@/lib/webmcp-telemetry";
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>) =>
@@ -117,6 +119,13 @@ function ClientSpace() {
         (q === "" || p.name.toLowerCase().includes(q) || p.shop_name.toLowerCase().includes(q)),
     );
   }, [products, category, query]);
+
+  useWebMCP({
+    name: "read_visible_catalog",
+    description: "Lire les produits du catalogue actuellement affiché, en respectant la recherche et le filtre actifs.",
+    annotations: { readOnlyHint: true, untrustedContentHint: true },
+    execute: () => runWebMCPTool("read_visible_catalog", () => visible.length ? visible.map((p) => `${p.id}: ${p.name} — ${p.price} FCFA — ${p.shop_name} — ${p.stock} en stock`).join("\n") : "Aucun produit dans le catalogue affiché."),
+  });
 
   const nouveautes = useMemo(() => products.slice(0, 8), [products]);
 

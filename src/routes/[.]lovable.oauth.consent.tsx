@@ -24,7 +24,7 @@ export const Route = createFileRoute("/.lovable/oauth/consent")({
   },
   head: () => ({ meta: [{ title: "Autoriser un agent — Shop Crew Hub" }, { name: "description", content: "Autorisez ou refusez l’accès sécurisé d’un agent à votre compte Shop Crew Hub." }, { property: "og:title", content: "Autoriser un agent — Shop Crew Hub" }, { property: "og:description", content: "Contrôlez l’accès des agents à votre compte." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   pendingComponent: () => <main className="grid min-h-screen place-items-center"><p role="status">Vérification de l’autorisation…</p></main>,
-  errorComponent: ({ error }) => <main className="mx-auto max-w-lg px-5 py-16"><BrandLogo /><h1 className="mt-8 text-2xl font-bold">Autorisation indisponible</h1><p role="alert" className="mt-4 text-muted-foreground">{error.message}</p><Button asChild variant="outline" className="mt-6"><Link to="/">Retour à Shop Crew Hub</Link></Button></main>,
+  errorComponent: ({ error }) => <main className="mx-auto max-w-lg px-5 py-16"><BrandLogo /><h1 className="mt-8 text-2xl font-bold">Autorisation indisponible</h1><p role="alert" className="mt-4 text-muted-foreground">{error instanceof Error ? error.message : "Cette demande n’a pas pu être vérifiée."}</p><Button asChild variant="outline" className="mt-6"><Link to="/">Retour à Shop Crew Hub</Link></Button></main>,
   component: ConsentPage,
 });
 
