@@ -1,4 +1,6 @@
 # Roadmap
+- [ ] Corriger la configuration de déploiement Vercel sans remplacer TanStack Start.
+- [ ] Vérifier le site public et relancer Vercel si un accès au projet est disponible.
 - [x] Ajouter le serveur MCP protégé avec lectures limitées et permissions existantes.
 - [x] Ajouter le consentement OAuth et préserver le retour après connexion.
 - [x] Ajouter les outils de lecture pour agents dans le navigateur.
