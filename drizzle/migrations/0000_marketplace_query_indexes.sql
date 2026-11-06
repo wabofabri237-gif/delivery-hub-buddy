@@ -1,0 +1,12 @@
+CREATE INDEX IF NOT EXISTS applications_user_id_idx ON public.applications (user_id);
+CREATE INDEX IF NOT EXISTS applications_status_created_idx ON public.applications (status, created_at DESC);
+CREATE INDEX IF NOT EXISTS order_items_product_id_idx ON public.order_items (product_id);
+CREATE INDEX IF NOT EXISTS products_published_created_idx ON public.products (created_at DESC) WHERE is_published;
+CREATE INDEX IF NOT EXISTS products_category_idx ON public.products (category) WHERE is_published;
+CREATE INDEX IF NOT EXISTS products_shop_created_idx ON public.products (shop_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS orders_buyer_created_idx ON public.orders (buyer_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS orders_shop_created_idx ON public.orders (shop_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS orders_payment_pending_idx ON public.orders (created_at DESC) WHERE payment_status = 'en_attente' AND payment_reference IS NOT NULL;
+CREATE INDEX IF NOT EXISTS shops_active_created_idx ON public.shops (created_at DESC) WHERE is_active;
+CREATE INDEX IF NOT EXISTS product_images_product_position_idx ON public.product_images (product_id, position);
+CREATE INDEX IF NOT EXISTS product_variants_product_position_idx ON public.product_variants (product_id, position);
