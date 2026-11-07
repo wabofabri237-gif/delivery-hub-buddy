@@ -1,4 +1,6 @@
 # Roadmap
+- [ ] Diagnostiquer et réparer l’inscription, les sessions et la connexion Google sans supprimer de données.
+- [ ] Vérifier les réglages de connexion et tester le parcours réel disponible.
 - [x] Corriger la configuration de déploiement Vercel sans remplacer TanStack Start.
 - [x] Vérifier le site public : accueil, connexion et catégories répondent normalement.
 - [ ] Relancer et vérifier Vercel : accès au projet Vercel et rapport exact du déploiement non disponibles.
