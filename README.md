@@ -16,6 +16,19 @@ Continue developing this project in the [Lovable editor](https://lovable.dev/pro
 
 ## Development
 
+## Deployment on Vercel
+
+Shop Crew Hub is a TanStack Start web application, not a Next.js project.
+Do not install Next.js to satisfy a framework-detection error.
+
+- Import the connected repository into Vercel with the repository root as the Root Directory.
+- Use Framework Preset **Other**. The checked-in `vercel.json` disables Next.js detection.
+- Use the existing `npm run build` command. Clear any Output Directory override: Nitro generates the full Vercel deployment at `.vercel/output`, including server functions.
+- Vercel sets `VERCEL=1`; this selects the Vercel target while leaving ordinary Lovable builds unchanged.
+- Configure the application's public environment variables and required server secrets in Vercel without committing them to Git. Lovable-managed services are not automatically transferred to another host.
+- Before switching users to a Vercel domain, allow its exact public `/auth/callback` address in the existing authentication service and verify sign-in and agent consent on that domain.
+- After repository sync, redeploy from Vercel and check the home page, sign-in, catalogue, server functions, and `/sw.js`. A successful local preview does not verify a Vercel deployment.
+
 Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 ```sh

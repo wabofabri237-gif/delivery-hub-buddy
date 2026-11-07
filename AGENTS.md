@@ -22,3 +22,5 @@ MCP tools are read-only, verify OAuth client tokens, and use caller-scoped datab
 OAuth consent uses the existing sign-in flow with a canonical same-origin return path, and auth/MCP routes are excluded from offline navigation caching.
 
 Browser agent registrations live in the visible screen component and expose only current-view reads, with best-effort static-name telemetry and no consequential actions.
+
+Keep TanStack Start as the framework; select Nitro's Vercel preset only when VERCEL=1 and disable Vercel framework autodetection, so external deployment does not replace the existing Lovable runtime or discard server functions.
