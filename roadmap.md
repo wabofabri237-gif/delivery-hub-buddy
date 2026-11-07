@@ -1,4 +1,7 @@
 # Roadmap
+- [x] Réparer le retour de connexion et compléter les fiches et rôles client manquants sans supprimer de données.
+- [x] Vérifier les réglages, Google jusqu’à sa page de connexion et le retour authentifié réel vers Mon compte.
+- [ ] Vérifier une nouvelle inscription jusqu’au clic sur l’e-mail : accès à une boîte de réception de test non disponible.
 - [x] Corriger la configuration de déploiement Vercel sans remplacer TanStack Start.
 - [x] Vérifier le site public : accueil, connexion et catégories répondent normalement.
 - [ ] Relancer et vérifier Vercel : accès au projet Vercel et rapport exact du déploiement non disponibles.

@@ -1,10 +1,11 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useMatch, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Mail, Lock, User, Phone, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { BrandLogo } from "@/components/brand-logo";
 import { oauthReturnPath } from "@/lib/oauth-return-path";
+import { Button } from "@/components/ui/button";
 
 function friendlyAuthError(err: unknown): string {
   const msg = err instanceof Error ? err.message : String(err ?? "");
@@ -13,6 +14,7 @@ function friendlyAuthError(err: unknown): string {
   }
   if (/invalid login credentials/i.test(msg)) return "E-mail ou mot de passe incorrect.";
   if (/email not confirmed/i.test(msg)) return "Confirmez d'abord votre e-mail (vérifiez votre boîte de réception).";
+  if (/rate limit|too many requests|over_email_send_rate_limit/i.test(msg)) return "Trop de demandes. Attendez quelques minutes avant de réessayer.";
   if (/already registered|already exists/i.test(msg)) return "Un compte existe déjà avec cet e-mail. Connectez-vous.";
   if (/provider is not enabled|unsupported provider/i.test(msg)) {
     return "Ce mode de connexion n'est pas encore activé.";
@@ -41,8 +43,13 @@ export const Route = createFileRoute("/auth")({
       },
     ],
   }),
-  component: AuthPage,
+  component: AuthRouteView,
 });
+
+function AuthRouteView() {
+  const isCallback = useMatch({ from: "/auth/callback", shouldThrow: false });
+  return isCallback ? <Outlet /> : <AuthPage />;
+}
 
 function AuthPage() {
   const navigate = useNavigate();
@@ -55,12 +62,14 @@ function AuthPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
+  const [needsConfirmation, setNeedsConfirmation] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     setInfo(null);
     setBusy(true);
+    setNeedsConfirmation(false);
     try {
       if (mode === "signup") {
         const { data, error: err } = await supabase.auth.signUp({
@@ -73,6 +82,7 @@ function AuthPage() {
         });
         if (err) throw err;
         if (!data.session) {
+          setNeedsConfirmation(true);
           setInfo("Compte créé. Vérifiez votre e-mail pour confirmer votre inscription.");
           return;
         }
@@ -86,6 +96,7 @@ function AuthPage() {
         await navigate({ to: next });
       }
     } catch (err) {
+      if (err instanceof Error && /email not confirmed/i.test(err.message)) setNeedsConfirmation(true);
       setError(friendlyAuthError(err));
     } finally {
       setBusy(false);
@@ -93,6 +104,8 @@ function AuthPage() {
   }
 
   async function onGoogle() {
+    if (busy) return;
+    setBusy(true);
     setError(null);
     try {
       const result = await lovable.auth.signInWithOAuth("google", {
@@ -107,6 +120,28 @@ function AuthPage() {
       await navigate({ to: next });
     } catch (err) {
       setError(friendlyAuthError(err));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function resendConfirmation() {
+    if (busy || !email.trim()) return;
+    setBusy(true);
+    setError(null);
+    setInfo(null);
+    try {
+      const { error: err } = await supabase.auth.resend({
+        type: "signup",
+        email: email.trim(),
+        options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}` },
+      });
+      if (err) throw err;
+      setInfo("Demande envoyée. Vérifiez votre boîte de réception et vos courriers indésirables.");
+    } catch (err) {
+      setError(friendlyAuthError(err));
+    } finally {
+      setBusy(false);
     }
   }
 
@@ -125,13 +160,15 @@ function AuthPage() {
             Un seul compte pour acheter, vendre ou livrer.
           </p>
 
-          <button
+          <Button
             type="button"
             onClick={onGoogle}
+            variant="outline"
+            disabled={busy}
             className="mt-6 w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm font-medium"
           >
             Continuer avec Google
-          </button>
+          </Button>
 
           <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
             <span className="h-px flex-1 bg-border" /> ou <span className="h-px flex-1 bg-border" />
@@ -184,32 +221,40 @@ function AuthPage() {
               />
             </Field>
 
-            {error && <p className="text-xs text-destructive">{error}</p>}
-            {info && <p className="text-xs text-primary">{info}</p>}
+            {error && <p role="alert" className="text-xs text-destructive">{error}</p>}
+            {info && <p role="status" className="text-xs text-primary">{info}</p>}
+            {needsConfirmation && (
+              <Button type="button" variant="link" disabled={busy} onClick={resendConfirmation} className="h-auto whitespace-normal px-0">
+                Renvoyer l’e-mail de confirmation
+              </Button>
+            )}
 
-            <button
+            <Button
               type="submit"
               disabled={busy}
               className="mint-surface glow flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold disabled:opacity-60"
             >
               {mode === "login" ? "Se connecter" : "Créer mon compte"}
               <ArrowRight className="h-4 w-4" aria-hidden />
-            </button>
+            </Button>
           </form>
 
           <p className="mt-5 text-center text-xs text-muted-foreground">
             {mode === "login" ? "Pas encore de compte ?" : "Déjà inscrit ?"}{" "}
-            <button
+            <Button
               type="button"
+              variant="link"
+              disabled={busy}
               onClick={() => {
                 setMode(mode === "login" ? "signup" : "login");
                 setError(null);
                 setInfo(null);
+                setNeedsConfirmation(false);
               }}
-              className="text-primary underline-offset-4 hover:underline"
+              className="h-auto px-0 text-xs"
             >
               {mode === "login" ? "Créer un compte" : "Se connecter"}
-            </button>
+            </Button>
           </p>
         </div>
       </div>
