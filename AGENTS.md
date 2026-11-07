@@ -13,6 +13,8 @@ Use the generated full-resolution Shop Crew Hub logo for visible brand presentat
 
 All authentication providers return through the public `/auth/callback` route, which verifies the stored session before sending users to a sanitized same-origin destination, so external OAuth and email confirmation never land directly on a protected page.
 
+The /auth parent must render Outlet for its callback child instead of the sign-in form, so the callback actually runs; validate the returned identity before protected navigation.
+
 Public category navigation uses a shared category-to-legacy-label mapping and exact normalized label matching, never product-name guessing, so existing product categories remain readable without database rewrites.
 
 Homepage and category listings reuse the same product card and existing catalog reads; popularity and promotions require actual supporting data, never inferred from stock or recency.

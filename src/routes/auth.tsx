@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useMatch, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Mail, Lock, User, Phone, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -43,8 +43,13 @@ export const Route = createFileRoute("/auth")({
       },
     ],
   }),
-  component: AuthPage,
+  component: AuthRouteView,
 });
+
+function AuthRouteView() {
+  const isCallback = useMatch({ from: "/auth/callback", shouldThrow: false });
+  return isCallback ? <Outlet /> : <AuthPage />;
+}
 
 function AuthPage() {
   const navigate = useNavigate();
