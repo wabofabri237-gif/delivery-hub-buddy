@@ -11,7 +11,7 @@ import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/tanstack/vite";
 export default defineConfig({
   // Vercel needs its server output, not a Next.js build or static-only hosting.
   // Ordinary Lovable builds retain the existing default deployment target.
-  ...(process.env.VERCEL === "1" ? { nitro: { preset: "vercel" } } : {}),
+  ...(process.env['VERCEL'] === "1" ? { nitro: { preset: "vercel" } } : {}),
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
