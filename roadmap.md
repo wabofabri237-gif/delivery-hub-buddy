@@ -1,4 +1,6 @@
 # Roadmap
+- [x] Tester le retour avec une session autorisée : compte, rechargement et destination Mes commandes, sans erreur navigateur.
+- [ ] Tester l’autorisation Google complète : sélection du compte et validation Google à effectuer par le propriétaire.
 - [x] Réparer le retour de connexion et compléter les fiches et rôles client manquants sans supprimer de données.
 - [x] Vérifier les réglages, Google jusqu’à sa page de connexion et le retour authentifié réel vers Mon compte.
 - [ ] Vérifier une nouvelle inscription jusqu’au clic sur l’e-mail : accès à une boîte de réception de test non disponible.
