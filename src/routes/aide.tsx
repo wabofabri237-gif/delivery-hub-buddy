@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SpaceNav } from "@/components/space-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { ContactForm } from "@/components/contact-form";
 
 export const Route = createFileRoute("/aide")({
   head: () => ({
@@ -22,7 +23,7 @@ const SECTIONS: { h: string; p: string }[] = [
   { h: "Quels moyens de paiement ?", p: "Orange Money, MTN MoMo ou paiement à la réception. Le numéro mobile money du vendeur est indiqué sur sa boutique." },
   { h: "Comment ouvrir une boutique ?", p: "Depuis Mon compte, envoyez une demande vendeur avec vos informations. Après validation par l'administration, votre boutique est activée et vous pouvez publier vos produits." },
   { h: "Comment devenir livreur ?", p: "Depuis Mon compte, envoyez une demande livreur. Une fois certifié, l'espace Livreur vous montre les commandes préparées à prendre en charge." },
-  { h: "Annulation et litige", p: "Contactez d'abord le vendeur via le numéro de la boutique. En cas de blocage, écrivez à support@sokomarket.app avec le numéro de commande." },
+  { h: "Annulation et litige", p: "Contactez d'abord le vendeur. En cas de blocage, envoyez une demande à l’assistance ci-dessous avec le numéro de commande." },
 ];
 
 function Page() {
@@ -40,6 +41,7 @@ function Page() {
             </section>
           ))}
         </div>
+        <ContactForm />
       </main>
       <SiteFooter />
     </div>

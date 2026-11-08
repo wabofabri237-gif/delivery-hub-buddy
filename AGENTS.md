@@ -26,3 +26,5 @@ OAuth consent uses the existing sign-in flow with a canonical same-origin return
 Browser agent registrations live in the visible screen component and expose only current-view reads, with best-effort static-name telemetry and no consequential actions.
 
 Keep TanStack Start as the framework; select Nitro's Vercel preset only when VERCEL=1 and disable Vercel framework autodetection, so external deployment does not replace the existing Lovable runtime or discard server functions.
+
+Support requests use authenticated, validated server writes with caller-scoped RLS and an admin read surface; professional applications stay in the existing application workflow to avoid duplicating decisions.
