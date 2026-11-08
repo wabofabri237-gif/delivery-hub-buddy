@@ -1,4 +1,6 @@
 # Roadmap
+- [x] Enregistrer les messages de contact et assistance, visibles dans l’administration, sans changer les candidatures vendeur/livreur existantes.
+- [ ] Activer les notifications e-mail pour contact et candidatures : domaine d’envoi appartenant au propriétaire non configuré.
 - [x] Tester le retour avec une session autorisée : compte, rechargement et destination Mes commandes, sans erreur navigateur.
 - [ ] Tester l’autorisation Google complète : sélection du compte et validation Google à effectuer par le propriétaire.
 - [x] Réparer le retour de connexion et compléter les fiches et rôles client manquants sans supprimer de données.

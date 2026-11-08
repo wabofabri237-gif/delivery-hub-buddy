@@ -10,6 +10,7 @@ import {
   getAdminStats,
 } from "@/lib/account.functions";
 import { PaymentsPanel } from "@/components/payments-panel";
+import { ContactRequests } from "@/components/contact-requests";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   loader: () => requireAdmin(),
@@ -26,6 +27,8 @@ export const Route = createFileRoute("/_authenticated/admin")({
         property: "og:description",
         content: "Tableau de bord admin : comptes, rôles, demandes et modération.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AdminSpace,
@@ -130,6 +133,7 @@ function AdminSpace() {
         </div>
 
         <ApplicationsPanel />
+        <ContactRequests />
 
         <PaymentsPanel />
       </main>
