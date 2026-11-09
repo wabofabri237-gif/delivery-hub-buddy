@@ -15,7 +15,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { registerServiceWorker } from "../lib/register-sw";
-
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function NotFoundComponent() {
   return (
@@ -83,8 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       {
         name: "viewport",
-        content:
-          "width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover",
+        content: "width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover",
       },
       { title: "Shop Crew Hub — Le marché près de chez vous" },
       {
@@ -115,7 +114,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
   }),
 
-
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
@@ -131,6 +129,7 @@ function RootShell({ children }: { children: ReactNode }) {
       <body>
         {children}
         <Scripts />
+        <SpeedInsights />
       </body>
     </html>
   );
@@ -143,16 +142,14 @@ function RootComponent() {
     registerServiceWorker();
   }, []);
 
-
-
   return (
     <QueryClientProvider client={queryClient}>
       <CartProvider>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <div className="pb-16 md:pb-0">
-        <Outlet />
-      </div>
-      <MobileTabBar />
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <div className="pb-16 md:pb-0">
+          <Outlet />
+        </div>
+        <MobileTabBar />
       </CartProvider>
     </QueryClientProvider>
   );
